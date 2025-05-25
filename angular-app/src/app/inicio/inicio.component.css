@@ -1,0 +1,14 @@
+.dashboard-card {
+  max-width: 400px;
+  margin: 2rem auto;
+  text-align: center;
+}
+.saldo-cantidad {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #388e3c;
+}
+.saldo-detalle {
+  margin-top: 1rem;
+  color: #888;
+}

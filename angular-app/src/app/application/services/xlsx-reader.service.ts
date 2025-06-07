@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { CsvRow } from '../../domain/models/csv-row.model';
-import { BBVAImportData } from '../../domain/models/bbva-import-data.model';
-import { csvRowArrayToBBVAImportDataArray } from '../../domain/adapters/csvrow-to-bbvaimportdata.adapter';
 
 @Injectable({
   providedIn: 'root'
 })
 export class XlsxReaderService {
-  readXlsxFile(file: File): Promise<BBVAImportData[]> {
+  readXlsxFile(file: File): Promise<CsvRow[]> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => {
@@ -27,21 +25,22 @@ export class XlsxReaderService {
           const fechaIdx = headerRow.findIndex((h: string) => h?.toLowerCase() === 'fecha');
           const conceptoIdx = headerRow.findIndex((h: string) => h?.toLowerCase() === 'concepto');
           const importeIdx = headerRow.findIndex((h: string) => h?.toLowerCase() === 'importe');
+          const movimientoIdx = headerRow.findIndex((h: string) => h?.toLowerCase() === 'movimiento');
+          const observacionesIdx = headerRow.findIndex((h: string) => h?.toLowerCase() === 'observaciones');
 
-          // 3. Map to CsvRow[]
+          // 3. Map to CsvRow[] (including new fields)
           const csvRows: CsvRow[] = dataRows
             .filter(row => row.length > Math.max(fechaIdx, conceptoIdx, importeIdx))
             .map(row => ({
               date: row[fechaIdx] ?? '',
               description: row[conceptoIdx] ?? '',
-              amount: Number(row[importeIdx])
+              amount: Number(row[importeIdx]),
+              movimiento: movimientoIdx !== -1 ? row[movimientoIdx] ?? '' : '',
+              observaciones: observacionesIdx !== -1 ? row[observacionesIdx] ?? '' : ''
             }));
 
-          // 4. Use the adapter to map to BBVAImportData[]
-          const bbvaData = csvRowArrayToBBVAImportDataArray(csvRows);
-
-          // 5. Return BBVAImportData[]
-          resolve(bbvaData);
+          // 4. Return CsvRow[]
+          resolve(csvRows);
         } catch (err) {
           reject(err);
         }

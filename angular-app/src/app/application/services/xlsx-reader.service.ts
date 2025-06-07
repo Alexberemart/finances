@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
-import { CsvRow } from '../models/csv-row.model';
-import { BBVAImportData } from '../models/bbva-import-data.model';
-import { csvRowArrayToBBVAImportDataArray } from '../adapters/csvrow-to-bbvaimportdata.adapter';
+import { CsvRow } from '../../domain/models/csv-row.model';
+import { BBVAImportData } from '../../domain/models/bbva-import-data.model';
+import { csvRowArrayToBBVAImportDataArray } from '../../domain/adapters/csvrow-to-bbvaimportdata.adapter';
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { XlsxReaderService } from '../services/xlsx-reader.service';
-import { ImportRestService } from '../services/import-rest.service';
-import { ImportData } from '../models/import-data.model';
+import { ImportRestService } from '../../infrastructure/services/import-rest.service';
+import { ImportData } from '../../domain/models/import-data.model';
 
 @Injectable({ providedIn: 'root' })
 export class ImportFileUseCase {

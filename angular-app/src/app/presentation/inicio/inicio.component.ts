@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { CuentaService } from '../infrastructure/services/cuenta.service'; // <-- FIXED
-import { BankAccount } from '../models/bank-account.model';
+import { CuentaService } from '../../infrastructure/services/cuenta.service'; // <-- FIXED
+import { BankAccount } from '../../domain/models/bank-account.model';
 
 @Component({
   selector: 'app-inicio',

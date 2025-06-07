@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ImportData } from '../models/import-data.model';
-import { ImportFileUseCase } from '../use-cases/import-file.usecase';
+import { ImportData } from '../../domain/models/import-data.model';
+import { ImportFileUseCase } from '../../application/use-cases/import-file.usecase';
 import { MatTableModule } from '@angular/material/table';
 
 @Component({

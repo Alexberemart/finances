@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { CuentaService } from '../services/cuenta.service';
+import { BankAccount } from '../models/bank-account.model';
 
 @Component({
   selector: 'app-inicio',
@@ -12,14 +13,14 @@ import { CuentaService } from '../services/cuenta.service';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
-  saldo: number = 0;
+  bankAccount?: BankAccount;
   ultimaActualizacion = new Date();
 
   constructor(private cuentaService: CuentaService) {}
 
   ngOnInit(): void {
-    this.cuentaService.getSaldo().subscribe(saldo => {
-      this.saldo = saldo;
+    this.cuentaService.getBankAccount().subscribe(account => {
+      this.bankAccount = account;
       this.ultimaActualizacion = new Date();
     });
   }

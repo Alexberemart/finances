@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { BankAccount } from '../models/bank-account.model';
+import { BankAccount } from '../../models/bank-account.model'; // <-- FIXED
 
 @Injectable({
   providedIn: 'root'

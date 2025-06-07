@@ -10,18 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alexberemart.finances.domain.ports.dtos.FinancialMovementDto;
 import com.alexberemart.finances.domain.ports.dtos.ImportMovementDto;
 import com.alexberemart.finances.domain.useCases.CreateFinancialMovements;
-import com.alexberemart.finances.infraestructure.out.FinancialMovementBankPort;
 
 @RestController
 class FinancialMovementController {
 
   private final CreateFinancialMovements createFinancialMovements;
-  private final FinancialMovementBankPort financialMovementBankPort;
 
-  FinancialMovementController(CreateFinancialMovements createFinancialMovements,
-      FinancialMovementBankPort financialMovementBankPort) {
+  FinancialMovementController(CreateFinancialMovements createFinancialMovements) {
     this.createFinancialMovements = createFinancialMovements;
-    this.financialMovementBankPort = financialMovementBankPort;
   }
 
   @PostMapping("/financial-movements")

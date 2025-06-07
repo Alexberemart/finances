@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alexberemart.finances.domain.ports.dtos.FinancialMovementDto;
+import com.alexberemart.finances.domain.ports.dtos.ImportMovementDto;
 import com.alexberemart.finances.domain.useCases.CreateFinancialMovements;
 import com.alexberemart.finances.infraestructure.out.FinancialMovementBankPort;
 
@@ -24,9 +25,9 @@ class FinancialMovementController {
   }
 
   @PostMapping("/financial-movements")
-  List<FinancialMovementDto> newEmployee(@RequestBody FinancialMovementDto financialMovementDto)
+  List<ImportMovementDto> newEmployee(@RequestBody List<FinancialMovementDto> financialMovementDtos)
       throws Exception {
-    return createFinancialMovements.create(financialMovementBankPort);
+    return createFinancialMovements.create(financialMovementDtos);
   }
 
 }

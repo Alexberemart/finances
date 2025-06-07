@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { CsvRow } from '../models/csv-row.model';
+import { BBVAImportData } from '../models/bbva-import-data.model';
+import { csvRowArrayToBBVAImportDataArray } from '../adapters/csvrow-to-bbvaimportdata.adapter';
 
 @Injectable({
   providedIn: 'root'
 })
 export class XlsxReaderService {
-  readXlsxFile(file: File): Promise<CsvRow[]> {
+  readXlsxFile(file: File): Promise<BBVAImportData[]> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => {
@@ -17,15 +19,16 @@ export class XlsxReaderService {
           const worksheet = workbook.Sheets[sheetName];
           const json: any[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-          // Skip first 4 rows, use 5th as header
+          // 1. Skip first 4 rows, use 5th as header
           const headerRow = json[4];
           const dataRows = json.slice(5);
 
-          // Find indexes for the columns
+          // 2. Find indexes for the columns
           const fechaIdx = headerRow.findIndex((h: string) => h?.toLowerCase() === 'fecha');
           const conceptoIdx = headerRow.findIndex((h: string) => h?.toLowerCase() === 'concepto');
           const importeIdx = headerRow.findIndex((h: string) => h?.toLowerCase() === 'importe');
 
+          // 3. Map to CsvRow[]
           const csvRows: CsvRow[] = dataRows
             .filter(row => row.length > Math.max(fechaIdx, conceptoIdx, importeIdx))
             .map(row => ({
@@ -34,7 +37,11 @@ export class XlsxReaderService {
               amount: Number(row[importeIdx])
             }));
 
-          resolve(csvRows);
+          // 4. Use the adapter to map to BBVAImportData[]
+          const bbvaData = csvRowArrayToBBVAImportDataArray(csvRows);
+
+          // 5. Return BBVAImportData[]
+          resolve(bbvaData);
         } catch (err) {
           reject(err);
         }

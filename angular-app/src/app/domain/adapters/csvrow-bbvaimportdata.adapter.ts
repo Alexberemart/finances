@@ -5,6 +5,8 @@ export function mapCsvRowsToBBVAImportData(rows: CsvRow[]): BBVAImportData[] {
   return rows.map(row => ({
     date: row.date,
     description: row.description,
-    amount: row.amount
+    amount: row.amount,
+    movimiento: row.movimiento,
+    observaciones: row.observaciones
   }));
 }

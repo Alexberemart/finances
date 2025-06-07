@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { CuentaService } from '../services/cuenta.service';
 
 @Component({
   selector: 'app-inicio',
@@ -10,7 +11,16 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.css']
 })
-export class InicioComponent {
-  saldo = 12345.67;
+export class InicioComponent implements OnInit {
+  saldo: number = 0;
   ultimaActualizacion = new Date();
+
+  constructor(private cuentaService: CuentaService) {}
+
+  ngOnInit(): void {
+    this.cuentaService.getSaldo().subscribe(saldo => {
+      this.saldo = saldo;
+      this.ultimaActualizacion = new Date();
+    });
+  }
 }

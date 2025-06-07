@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BBVAImportData } from '../models/bbva-import-data.model';
-import { XlsxReaderService } from '../services/xlsx-reader.service';
+import { ImportData } from '../models/import-data.model';
+import { ImportFileUseCase } from '../use-cases/import-file.usecase';
 import { MatTableModule } from '@angular/material/table';
 
 @Component({
@@ -12,10 +12,10 @@ import { MatTableModule } from '@angular/material/table';
   styleUrls: ['./configuracion.component.css']
 })
 export class ConfiguracionComponent {
-  bbvaData: BBVAImportData[] = [];
+  importData: ImportData[] = [];
   displayedColumns: string[] = ['date', 'description', 'amount'];
 
-  constructor(private xlsxReader: XlsxReaderService) {}
+  constructor(private importFileUseCase: ImportFileUseCase) {}
 
   async onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -23,9 +23,9 @@ export class ConfiguracionComponent {
 
     const file = input.files[0];
     try {
-      this.bbvaData = await this.xlsxReader.readXlsxFile(file);
+      this.importData = await this.importFileUseCase.importFile(file);
     } catch (error) {
-      console.error('Error reading file:', error);
+      console.error('Error importing file:', error);
     }
   }
 }

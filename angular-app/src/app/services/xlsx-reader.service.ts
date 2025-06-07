@@ -15,17 +15,25 @@ export class XlsxReaderService {
           const workbook = XLSX.read(data, { type: 'array' });
           const sheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[sheetName];
-          const json: any[] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+          const json: any[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-          // Assume first row is header
-          const [header, ...rows] = json;
-          const csvRows: CsvRow[] = rows
-            .filter(row => row.length >= 3)
+          // Skip first 4 rows, use 5th as header
+          const headerRow = json[4];
+          const dataRows = json.slice(5);
+
+          // Find indexes for the columns
+          const fechaIdx = headerRow.findIndex((h: string) => h?.toLowerCase() === 'fecha');
+          const conceptoIdx = headerRow.findIndex((h: string) => h?.toLowerCase() === 'concepto');
+          const importeIdx = headerRow.findIndex((h: string) => h?.toLowerCase() === 'importe');
+
+          const csvRows: CsvRow[] = dataRows
+            .filter(row => row.length > Math.max(fechaIdx, conceptoIdx, importeIdx))
             .map(row => ({
-              date: row[0] ?? '',
-              description: row[1] ?? '',
-              amount: Number(row[2])
+              date: row[fechaIdx] ?? '',
+              description: row[conceptoIdx] ?? '',
+              amount: Number(row[importeIdx])
             }));
+
           resolve(csvRows);
         } catch (err) {
           reject(err);

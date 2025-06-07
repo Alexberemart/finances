@@ -1,19 +1,59 @@
 <h2>Subir archivo XLSX</h2>
-<input type="file" accept=".xlsx" (change)="onFileSelected($event)" />
+<div class="upload-section">
+  <input type="file" accept=".xlsx" (change)="onFileSelected($event)" />
+</div>
 
-<table *ngIf="bbvaData.length > 0" border="1" style="margin-top:1rem; width:100%; max-width:600px;">
-  <thead>
-    <tr>
-      <th>Fecha</th>
-      <th>Descripción</th>
-      <th>Importe</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let row of bbvaData">
-      <td>{{ row.date }}</td>
-      <td>{{ row.description }}</td>
-      <td>{{ row.amount | number:'1.2-2' }}</td>
-    </tr>
-  </tbody>
-</table>
+<mat-table *ngIf="bbvaData.length > 0" [dataSource]="bbvaData" class="mat-elevation-z2">
+
+  <ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{ row.date }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{ row.description }} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="amount">
+    <mat-header-cell *matHeaderCellDef> Importe </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{ row.amount | number:'1.2-2' }} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<style>
+.upload-section {
+  margin-bottom: 2rem;
+}
+
+.styled-table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  font-size: 1rem;
+  min-width: 400px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+.styled-table th, .styled-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.styled-table thead tr {
+  background-color: #1976d2;
+  color: #fff;
+}
+
+.styled-table tbody tr:nth-child(even) {
+  background-color: #f6f6f6;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #e3f2fd;
+}
+</style>

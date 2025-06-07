@@ -14,7 +14,6 @@ export class ImportFileUseCase {
   async importFile(file: File): Promise<ImportData[]> {
     const csvRows = await this.xlsxReader.readXlsxFile(file);
     const bbvaData = mapCsvRowsToBBVAImportData(csvRows);
-    console.log('bbvaData:', bbvaData); // <-- Debug output
     return this.importRest.sendImport(bbvaData);
   }
 }

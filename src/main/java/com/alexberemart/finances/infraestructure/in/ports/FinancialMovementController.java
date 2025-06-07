@@ -20,8 +20,8 @@ class FinancialMovementController {
     this.createFinancialMovements = createFinancialMovements;
   }
 
-  @PostMapping("/financial-movements")
-  List<ImportMovementDto> newEmployee(@RequestBody List<FinancialMovementDto> financialMovementDtos)
+  @PostMapping("/api/financial-movements/import")
+  List<ImportMovementDto> importFinancialMovements(@RequestBody List<FinancialMovementDto> financialMovementDtos)
       throws Exception {
     return createFinancialMovements.create(financialMovementDtos);
   }

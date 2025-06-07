@@ -1,1 +1,19 @@
-<p>configuracion works!</p>
+<h2>Subir archivo XLSX</h2>
+<input type="file" accept=".xlsx" (change)="onFileSelected($event)" />
+
+<table *ngIf="bbvaData.length > 0" border="1" style="margin-top:1rem; width:100%; max-width:600px;">
+  <thead>
+    <tr>
+      <th>Fecha</th>
+      <th>Descripción</th>
+      <th>Importe</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of bbvaData">
+      <td>{{ row.date }}</td>
+      <td>{{ row.description }}</td>
+      <td>{{ row.amount | number:'1.2-2' }}</td>
+    </tr>
+  </tbody>
+</table>

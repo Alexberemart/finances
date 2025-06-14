@@ -51,6 +51,28 @@ class HexagonalArchitectureTest {
         ArchRuleDefinition.classes()
             .that().resideInAPackage(APPLICATION_PACKAGE)
             .should().dependOnClassesThat().resideInAPackage(DOMAIN_PACKAGE)
+            .allowEmptyShould(true) // Avoids warnings if application layer is empty
+            .check(classes);
+    }
+
+    @Test
+    void domainShouldNotDependOnSpring() {
+        // Good practice: The domain layer must not depend on Spring or any framework.
+        JavaClasses classes = new ClassFileImporter().importPackages("com.alexberemart.finances");
+        ArchRuleDefinition.noClasses()
+            .that().resideInAPackage(DOMAIN_PACKAGE)
+            .should().dependOnClassesThat().resideInAnyPackage("org.springframework..")
+            .check(classes);
+    }
+
+    @Test
+    void applicationShouldNotDependOnSpring() {
+        // Good practice: The application layer must not depend on Spring or any framework.
+        JavaClasses classes = new ClassFileImporter().importPackages("com.alexberemart.finances");
+        ArchRuleDefinition.noClasses()
+            .that().resideInAPackage(APPLICATION_PACKAGE)
+            .should().dependOnClassesThat().resideInAnyPackage("org.springframework..")
+            .allowEmptyShould(true) // Avoids warnings if application layer is empty
             .check(classes);
     }
 }

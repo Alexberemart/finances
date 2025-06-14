@@ -3,7 +3,7 @@ package com.alexberemart.finances.infraestructure;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.alexberemart.finances.domain.useCases.CreateFinancialMovements;
+import com.alexberemart.finances.application.usecases.CreateFinancialMovements;
 
 @Configuration
 public class AppConfig {

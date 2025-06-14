@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alexberemart.finances.application.usecases.CreateFinancialMovements;
 import com.alexberemart.finances.domain.ports.dtos.FinancialMovementDto;
 import com.alexberemart.finances.domain.ports.dtos.ImportMovementDto;
-import com.alexberemart.finances.domain.useCases.CreateFinancialMovements;
 
 @RestController
 class FinancialMovementController {

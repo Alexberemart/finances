@@ -1,4 +1,4 @@
-package com.alexberemart.finances.domain.useCases;
+package com.alexberemart.finances.application.usecases;
 
 import java.util.ArrayList;
 import java.util.List;

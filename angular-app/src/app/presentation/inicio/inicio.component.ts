@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,10 +13,10 @@ import { BankAccount } from '../../domain/models/bank-account.model';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
+  private cuentaService = inject(CuentaService);
+
   bankAccount?: BankAccount;
   ultimaActualizacion = new Date();
-
-  constructor(private cuentaService: CuentaService) {}
 
   ngOnInit(): void {
     this.cuentaService.getBankAccount().subscribe(account => {

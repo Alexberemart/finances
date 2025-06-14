@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImportData } from '../../domain/models/import-data.model';
 import { ImportFileUseCase } from '../../application/use-cases/import-file.usecase';
@@ -12,10 +12,10 @@ import { MatTableModule } from '@angular/material/table';
   styleUrls: ['./configuracion.component.css']
 })
 export class ConfiguracionComponent {
+  private importFileUseCase = inject(ImportFileUseCase);
+
   importData: ImportData[] = [];
   displayedColumns: string[] = ['date', 'description', 'amount'];
-
-  constructor(private importFileUseCase: ImportFileUseCase) {}
 
   async onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;

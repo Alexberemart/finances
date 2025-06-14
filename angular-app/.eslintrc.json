@@ -1,22 +1,37 @@
 {
-  "plugins": ["boundaries"],
-  "rules": {
-    "boundaries/element-types": [2, {
-      "default": "disallow",
-      "rules": [
-        { "from": "domain", "allow": [] },
-        { "from": "application", "allow": ["domain"] },
-        { "from": "infrastructure", "allow": ["application", "domain"] },
-        { "from": "presentation", "allow": ["application", "domain", "infrastructure"] }
-      ]
-    }]
-  },
-  "settings": {
-    "boundaries/elements": [
-      { "type": "domain", "pattern": "src/app/domain/**" },
-      { "type": "application", "pattern": "src/app/application/**" },
-      { "type": "infrastructure", "pattern": "src/app/infrastructure/**" },
-      { "type": "presentation", "pattern": "src/app/presentation/**" }
-    ]
-  }
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*",
+    "*.html",
+    "src/**/*.html"
+  ],
+  "overrides": [
+    {
+      "files": ["**/*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "plugins": ["@typescript-eslint", "boundaries"],
+      "rules": {
+        "boundaries/element-types": [
+          "error",
+          {
+            "default": "disallow",
+            "rules": [
+              { "from": "domain", "allow": [] },
+              { "from": "application", "allow": ["domain"] },
+              { "from": "infrastructure", "allow": ["application", "domain"] },
+              { "from": "presentation", "allow": ["application", "domain", "infrastructure"] }
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "boundaries/elements": [
+          { "type": "domain", "pattern": "src/app/domain/**" },
+          { "type": "application", "pattern": "src/app/application/**" },
+          { "type": "infrastructure", "pattern": "src/app/infrastructure/**" },
+          { "type": "presentation", "pattern": "src/app/presentation/**" }
+        ]
+      }
+    }
+  ]
 }

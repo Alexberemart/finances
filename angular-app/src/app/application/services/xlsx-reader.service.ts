@@ -15,7 +15,7 @@ export class XlsxReaderService {
           const workbook = XLSX.read(data, { type: 'array' });
           const sheetName = workbook.SheetNames[0];
           const worksheet = workbook.Sheets[sheetName];
-          const json: any[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+          const json: string[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
           // 1. Skip first 4 rows, use 5th as header
           const headerRow = json[4];

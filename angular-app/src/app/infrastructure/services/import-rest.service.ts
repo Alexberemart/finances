@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ImportData } from '../../domain/models/import-data.model';
 import { BBVAImportData } from '../../domain/models/bbva-import-data.model';
@@ -7,9 +7,9 @@ import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ImportRestService {
-  private readonly apiUrl = `${environment.apiUrl}/financial-movements/import`;
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private readonly apiUrl = `${environment.apiUrl}/financial-movements/import`;
 
   sendImport(bbvaData: BBVAImportData[]): Promise<ImportData[]> {
     return firstValueFrom(

@@ -7,31 +7,68 @@
   ],
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": ["*.ts", "**/*.ts"],
       "parser": "@typescript-eslint/parser",
-      "plugins": ["@typescript-eslint", "boundaries"],
       "rules": {
-        "boundaries/element-types": [
+        "no-restricted-imports": [
           "error",
           {
-            "default": "disallow",
-            "rules": [
-              { "from": "domain", "allow": [] },
-              { "from": "application", "allow": ["domain"] },
-              { "from": "infrastructure", "allow": ["application", "domain"] },
-              { "from": "presentation", "allow": ["application", "domain", "infrastructure"] }
+            "patterns": [
+              {
+                "group": ["../application/*", "../application/**"],
+                "message": "Domain layer must not import from application."
+              },
+              {
+                "group": ["../infrastructure/*", "../infrastructure/**"],
+                "message": "Domain layer must not import from infrastructure."
+              },
+              {
+                "group": ["../presentation/*", "../presentation/**"],
+                "message": "Domain layer must not import from presentation."
+              }
             ]
           }
         ]
-      },
-      "settings": {
-        "boundaries/elements": [
-          { "type": "domain", "pattern": "src/app/domain/**" },
-          { "type": "application", "pattern": "src/app/application/**" },
-          { "type": "infrastructure", "pattern": "src/app/infrastructure/**" },
-          { "type": "presentation", "pattern": "src/app/presentation/**" }
+      }
+    },
+    {
+      "files": ["src/app/application/**/*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["../infrastructure/*", "../infrastructure/**"],
+                "message": "Application layer must not import from infrastructure."
+              },
+              {
+                "group": ["../presentation/*", "../presentation/**"],
+                "message": "Application layer must not import from presentation."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/app/infrastructure/**/*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["../presentation/*", "../presentation/**"],
+                "message": "Infrastructure layer must not import from presentation."
+              }
+            ]
+          }
         ]
       }
     }
+    // No restrictions for presentation layer (can import from any layer)
   ]
 }

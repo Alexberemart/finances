@@ -1,4 +1,4 @@
-export interface ImportData {
+export interface ImportFinancialMovement {
   date: Date;
   description: string;
   amount: number;

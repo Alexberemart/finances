@@ -8,6 +8,11 @@
   <input #fileInput type="file" accept=".xlsx" (change)="onFileSelected($event)" hidden />
 </div>
 
+<button mat-raised-button color="accent" (click)="onSave()" [disabled]="importData.length === 0">
+  <mat-icon>save</mat-icon>
+  Guardar movimientos
+</button>
+
 <mat-table *ngIf="importData.length > 0" [dataSource]="importData" class="mat-elevation-z2">
 
   <ng-container matColumnDef="date">

@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { LabelService } from '../../infrastructure/services/label.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MovementService } from '../../infrastructure/services/movement.service';
 
 @Component({
   selector: 'app-configuracion',
@@ -28,6 +29,7 @@ export class ConfiguracionComponent implements OnInit {
   private importFileUseCase = inject(ImportFileUseCase);
   private http = inject(HttpClient);
   private labelService = inject(LabelService);
+  private movementService = inject(MovementService);
 
   importData: ImportData[] = [];
   displayedColumns: string[] = ['date', 'description', 'amount', 'label'];
@@ -56,5 +58,19 @@ export class ConfiguracionComponent implements OnInit {
   onLabelChange(row: ImportData) {
     // Handle label change if needed (e.g., save to backend)
     console.log('Label changed for row:', row);
+  }
+
+  onSave() {
+    this.movementService.saveMovements(this.importData).subscribe({
+      next: () => {
+        // Optionally show a success message
+        alert('Movimientos guardados correctamente.');
+      },
+      error: (err) => {
+        // Optionally show an error message
+        alert('Error al guardar movimientos.');
+        console.error(err);
+      }
+    });
   }
 }

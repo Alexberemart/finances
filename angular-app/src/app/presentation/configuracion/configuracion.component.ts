@@ -7,11 +7,20 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { LabelService } from '../../infrastructure/services/label.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-configuracion',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatSelectModule, FormsModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatSelectModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule
+  ],
   templateUrl: './configuracion.component.html',
   styleUrls: ['./configuracion.component.css']
 })
@@ -23,6 +32,7 @@ export class ConfiguracionComponent implements OnInit {
   importData: ImportData[] = [];
   displayedColumns: string[] = ['date', 'description', 'amount', 'label'];
   labels: string[] = [];
+  selectedFileName: string | null = null;
 
   ngOnInit() {
     this.labelService.getLabels().subscribe(labels => {
@@ -35,6 +45,7 @@ export class ConfiguracionComponent implements OnInit {
     if (!input.files?.length) return;
 
     const file = input.files[0];
+    this.selectedFileName = file.name;
     try {
       this.importData = await this.importFileUseCase.importFile(file);
     } catch (error) {

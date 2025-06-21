@@ -1,6 +1,11 @@
 <h2>Subir archivo XLSX</h2>
 <div class="upload-section">
-  <input type="file" accept=".xlsx" (change)="onFileSelected($event)" />
+  <button mat-raised-button color="primary" (click)="fileInput.click()">
+    <mat-icon>upload</mat-icon>
+    Seleccionar archivo XLSX
+  </button>
+  <span *ngIf="selectedFileName" class="file-name">{{ selectedFileName }}</span>
+  <input #fileInput type="file" accept=".xlsx" (change)="onFileSelected($event)" hidden />
 </div>
 
 <mat-table *ngIf="importData.length > 0" [dataSource]="importData" class="mat-elevation-z2">
@@ -36,5 +41,12 @@
 <style>
 .upload-section {
   margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.file-name {
+  font-style: italic;
+  color: #555;
 }
 </style>

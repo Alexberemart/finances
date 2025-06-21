@@ -1,5 +1,6 @@
 export interface ImportData {
-  date: string;
+  date: Date;
   description: string;
   amount: number;
+  label?: string;
 }

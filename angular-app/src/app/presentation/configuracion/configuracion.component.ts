@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImportFinancialMovement } from '../../domain/models/import-financial-movement.model';
+import { ImportedMovementRaw } from '../../domain/models/imported-movement-raw.model';
 import { ImportFileUseCase } from '../../application/use-cases/import-file.usecase';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
@@ -49,7 +50,7 @@ export class ConfiguracionComponent implements OnInit {
     const file = input.files[0];
     this.selectedFileName = file.name;
     try {
-      this.importData = await this.importFileUseCase.importFile(file);
+      this.importData = await this.importFileUseCase.importFileAndMapToFinancialMovements(file);
     } catch (error) {
       console.error('Error importing file:', error);
     }

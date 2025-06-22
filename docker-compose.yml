@@ -1,18 +1,18 @@
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: finances-mysql
+  mariadb:
+    image: mariadb:11.4
+    container_name: finances-mariadb
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     ports:
       - "3306:3306"
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_USER}", "-p${MYSQL_PASSWORD}"]
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-uroot", "-p${MARIADB_ROOT_PASSWORD}"]
       interval: 3s
       timeout: 5s
       retries: 10
@@ -20,9 +20,9 @@ services:
   app:
     build: .
     environment:
-      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER}
-      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
-      - SPRING_DATASOURCE_URL=jdbc:mariadb://mysql:3306/${MYSQL_DATABASE}?useSSL=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=${MARIADB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${MARIADB_PASSWORD}
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/${MARIADB_DATABASE}?useSSL=false&serverTimezone=UTC
     depends_on:
-      mysql:
+      mariadb:
         condition: service_healthy

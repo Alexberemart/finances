@@ -56,6 +56,23 @@ export class ConfiguracionComponent implements OnInit {
     }
   }
 
+  async onIngFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+
+    const file = input.files[0];
+    this.selectedFileName = file.name;
+    try {
+      // Call your new use case here
+      // Example:
+      // this.importData = await this.importIngFileUseCase.importFileAndMapToFinancialMovements(file);
+      // For now, just log or handle as needed:
+      console.log('ING file selected:', file);
+    } catch (error) {
+      console.error('Error importing ING file:', error);
+    }
+  }
+
   onLabelChange(row: ImportFinancialMovement) {
     // Handle label change if needed (e.g., save to backend)
     console.log('Label changed for row:', row);

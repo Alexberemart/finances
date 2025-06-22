@@ -1,11 +1,20 @@
 <h2>Subir archivo XLSX</h2>
 <div class="upload-section">
-  <button mat-raised-button color="primary" (click)="fileInput.click()">
+  <!-- BBVA Button -->
+  <button mat-raised-button color="primary" (click)="bbvaFileInput.click()">
     <mat-icon>upload</mat-icon>
-    Seleccionar archivo XLSX
+    Cargar fichero BBVA
   </button>
+  <input #bbvaFileInput type="file" accept=".xlsx" (change)="onFileSelected($event)" hidden />
+
+  <!-- ING Button -->
+  <button mat-raised-button color="primary" (click)="ingFileInput.click()">
+    <mat-icon>upload</mat-icon>
+    Cargar fichero ING
+  </button>
+  <input #ingFileInput type="file" accept=".xlsx" (change)="onIngFileSelected($event)" hidden />
+
   <span *ngIf="selectedFileName" class="file-name">{{ selectedFileName }}</span>
-  <input #fileInput type="file" accept=".xlsx" (change)="onFileSelected($event)" hidden />
 </div>
 
 <button mat-raised-button color="accent" (click)="onSave()" [disabled]="importData.length === 0">

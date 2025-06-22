@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.alexberemart.finances.application.usecases.CreateFinancialMovements;
+import com.alexberemart.finances.application.usecases.SaveImportFinancialMovements;
+import com.alexberemart.finances.domain.ports.repositories.ImportFinancialMovementRepository;
 
 @Configuration
 public class AppConfig {
@@ -11,5 +13,10 @@ public class AppConfig {
     @Bean
     public CreateFinancialMovements createFinancialMovements() {
         return new CreateFinancialMovements();
+    }
+
+    @Bean
+    public SaveImportFinancialMovements saveImportFinancialMovements(ImportFinancialMovementRepository repository) {
+        return new SaveImportFinancialMovements(repository);
     }
 }

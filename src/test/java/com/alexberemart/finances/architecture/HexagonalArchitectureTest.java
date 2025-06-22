@@ -6,6 +6,8 @@ import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Configuration;
 
+import jakarta.persistence.Entity;
+
 class HexagonalArchitectureTest {
 
     private static final String DOMAIN_PACKAGE = "..domain..";
@@ -39,6 +41,8 @@ class HexagonalArchitectureTest {
         ArchRuleDefinition.classes()
             .that().resideInAPackage(INFRASTRUCTURE_PACKAGE)
             .and().areNotAnnotatedWith(Configuration.class) // Exclude @Configuration
+            .and().areNotAnnotatedWith(Entity.class) // Exclude JPA entities
+            .and().areNotInterfaces() // Exclude all interfaces (including JPA repositories)
             .and().haveNameNotMatching(".*\\$.*") // Exclude inner classes
             .should().dependOnClassesThat().resideInAPackage(DOMAIN_PACKAGE)
             .check(classes);

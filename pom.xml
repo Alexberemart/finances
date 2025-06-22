@@ -113,7 +113,8 @@
 						<exclude>com/alexberemart/finances/infraestructure/in/ports/*</exclude>
 						<exclude>com/alexberemart/finances/domain/model/*</exclude>
 						<exclude>com/alexberemart/finances/*.class</exclude>
-						<exclude>com/alexberemart/finances/infraestructure/*</exclude>	
+						<exclude>com/alexberemart/finances/infraestructure/out/entities/*</exclude>
+						<exclude>**/*Config*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

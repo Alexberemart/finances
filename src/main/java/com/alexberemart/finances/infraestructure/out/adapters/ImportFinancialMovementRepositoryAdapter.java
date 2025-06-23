@@ -26,4 +26,9 @@ public class ImportFinancialMovementRepositoryAdapter implements ImportFinancial
             .collect(Collectors.toList());
         jpaRepository.saveAll(entities);
     }
+
+    @Override
+    public void deleteAll() {
+        jpaRepository.deleteAll();
+    }
 }

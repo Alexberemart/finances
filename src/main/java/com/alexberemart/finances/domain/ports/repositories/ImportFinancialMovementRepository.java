@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface ImportFinancialMovementRepository {
     void saveAll(List<DraftFinancialMovementDto> importFinancialMovements);
+    void deleteAll();
 }

@@ -10,8 +10,8 @@ import { environment } from '../../../environments/environment';
 export class ImportFinancialMovementsService {
   private http = inject(HttpClient);
 
-  private readonly createUrl = `${environment.apiUrl}/financial-movements/import`;
-  private readonly saveUrl = `${environment.apiUrl}/financial-movements/save`;
+  private readonly createUrl = `${environment.apiUrl}/draft-financial-movements/create`;
+  private readonly saveUrl = `${environment.apiUrl}/draft-financial-movements/save`;
 
   // Returns raw movements (no label)
   createImportMovements(bbvaData: BBVAImportData[]): Promise<ImportedMovementRaw[]> {

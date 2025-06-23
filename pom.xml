@@ -122,7 +122,7 @@
 						<!-- Or exclude all test classes in a package -->
 						<exclude>com/alexberemart/finances/domain/ports/dtos/*</exclude>
 						<exclude>com/alexberemart/finances/infraestructure/in/ports/*</exclude>
-						<exclude>com/alexberemart/finances/domain/model/*</exclude>
+						<exclude>com/alexberemart/finances/domain/models/*</exclude>
 						<exclude>com/alexberemart/finances/*.class</exclude>
 						<exclude>com/alexberemart/finances/infraestructure/out/entities/*</exclude>
 						<exclude>**/*Config*</exclude>

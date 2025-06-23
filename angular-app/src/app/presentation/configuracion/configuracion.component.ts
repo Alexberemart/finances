@@ -1,16 +1,16 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ImportFinancialMovement } from '../../domain/models/import-financial-movement.model';
-import { ImportedMovementRaw } from '../../domain/models/imported-movement-raw.model';
-import { ImportFileUseCase } from '../../application/use-cases/import-file.usecase';
+import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
-import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { LabelService } from '../../infrastructure/services/label.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ImportFinancialMovementsService } from '../../infrastructure/services/import-financial-movements.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
+import { ImportFinancialMovement } from '../../domain/models/import-financial-movement.model';
+import { ImportFileUseCase } from '../../application/use-cases/import-file.usecase';
+import { LabelService } from '../../infrastructure/services/label.service';
+import { SaveImportedMovementsUseCase } from '../../application/use-cases/save-imported-movements.usecase';
 
 @Component({
   selector: 'app-configuracion',
@@ -21,19 +21,19 @@ import { ImportFinancialMovementsService } from '../../infrastructure/services/i
     MatSelectModule,
     FormsModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatCheckboxModule
   ],
   templateUrl: './configuracion.component.html',
   styleUrls: ['./configuracion.component.css']
 })
 export class ConfiguracionComponent implements OnInit {
   private importFileUseCase = inject(ImportFileUseCase);
-  private http = inject(HttpClient);
   private labelService = inject(LabelService);
-  private importFinancialMovementsService = inject(ImportFinancialMovementsService);
+  private saveImportedMovementsUseCase = inject(SaveImportedMovementsUseCase);
 
   importData: ImportFinancialMovement[] = [];
-  displayedColumns: string[] = ['date', 'description', 'amount', 'label'];
+  displayedColumns: string[] = ['skip', 'date', 'description', 'amount', 'label'];
   labels: string[] = [];
   selectedFileName: string | null = null;
 
@@ -63,10 +63,7 @@ export class ConfiguracionComponent implements OnInit {
     const file = input.files[0];
     this.selectedFileName = file.name;
     try {
-      // Call your new use case here
-      // Example:
-      // this.importData = await this.importIngFileUseCase.importFileAndMapToFinancialMovements(file);
-      // For now, just log or handle as needed:
+      // Implement ING file import logic here if needed
       console.log('ING file selected:', file);
     } catch (error) {
       console.error('Error importing ING file:', error);
@@ -79,7 +76,7 @@ export class ConfiguracionComponent implements OnInit {
   }
 
   onSave() {
-    this.importFinancialMovementsService.saveImportedMovements(this.importData).subscribe({
+    this.saveImportedMovementsUseCase.execute(this.importData).subscribe({
       next: () => {
         alert('Movimientos guardados correctamente.');
       },

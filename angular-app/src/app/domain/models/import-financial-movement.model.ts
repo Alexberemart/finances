@@ -3,4 +3,5 @@ export interface ImportFinancialMovement {
   description: string;
   amount: number;
   label?: string;
+  skip?: boolean;
 }

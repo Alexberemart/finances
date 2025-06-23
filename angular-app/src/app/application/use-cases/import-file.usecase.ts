@@ -11,14 +11,14 @@ export class ImportFileUseCase {
   private xlsxReader = inject(XlsxReaderService);
   private importFinancialMovementsService = inject(ImportFinancialMovementsService);
 
-
   async importFileAndMapToFinancialMovements(file: File): Promise<ImportFinancialMovement[]> {
     const csvRows = await this.xlsxReader.readXlsxFile(file);
     const bbvaData: BBVAImportData[] = mapCsvRowsToBBVAImportData(csvRows);
     const rawMovements: ImportedMovementRaw[] = await this.importFinancialMovementsService.createImportMovements(bbvaData);
     return rawMovements.map(m => ({
       ...m,
-      label: '' // or undefined, or prefill as needed
+      label: '', // or undefined, or prefill as needed
+      skip: true // All movements masked (skipped) by default
     }));
   }
 }

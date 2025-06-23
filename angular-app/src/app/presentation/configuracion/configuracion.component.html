@@ -24,6 +24,13 @@
 
 <mat-table *ngIf="importData.length > 0" [dataSource]="importData" class="mat-elevation-z2">
 
+  <ng-container matColumnDef="skip">
+    <mat-header-cell *matHeaderCellDef> No registrar </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <mat-checkbox [(ngModel)]="row.skip"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+
   <ng-container matColumnDef="date">
     <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{ row.date | date:'dd/MM/yyyy' }} </mat-cell>

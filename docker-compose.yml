@@ -19,6 +19,8 @@ services:
 
   app:
     build: .
+    ports:
+      - "8080:8080"
     environment:
       - SPRING_DATASOURCE_USERNAME=${MARIADB_USER}
       - SPRING_DATASOURCE_PASSWORD=${MARIADB_PASSWORD}

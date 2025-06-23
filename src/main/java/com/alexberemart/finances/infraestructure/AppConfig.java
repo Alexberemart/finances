@@ -3,8 +3,8 @@ package com.alexberemart.finances.infraestructure;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.alexberemart.finances.application.usecases.CreateDraftFinancialMovements;
 import com.alexberemart.finances.application.usecases.CreateFinancialMovements;
-import com.alexberemart.finances.application.usecases.SaveFinancialMovements;
 import com.alexberemart.finances.application.usecases.SaveImportFinancialMovements;
 import com.alexberemart.finances.domain.ports.repositories.FinancialMovementRepository;
 import com.alexberemart.finances.domain.ports.repositories.ImportFinancialMovementRepository;
@@ -13,8 +13,8 @@ import com.alexberemart.finances.domain.ports.repositories.ImportFinancialMoveme
 public class AppConfig {
 
     @Bean
-    public CreateFinancialMovements createFinancialMovements() {
-        return new CreateFinancialMovements();
+    public CreateDraftFinancialMovements createDraftFinancialMovements() {
+        return new CreateDraftFinancialMovements();
     }
 
     @Bean
@@ -23,7 +23,7 @@ public class AppConfig {
     }
 
     @Bean
-    public SaveFinancialMovements saveFinancialMovements(FinancialMovementRepository repository) {
-        return new SaveFinancialMovements(repository);
+    public CreateFinancialMovements createFinancialMovements(FinancialMovementRepository repository) {
+        return new CreateFinancialMovements(repository);
     }
 }

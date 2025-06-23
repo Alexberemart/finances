@@ -34,7 +34,7 @@ class CreateFinancialMovementsTest {
 
         List<FinancialMovementDto> inputList = Arrays.asList(dto1, dto2);
 
-        CreateFinancialMovements useCase = new CreateFinancialMovements();
+        CreateDraftFinancialMovements useCase = new CreateDraftFinancialMovements();
 
         // Act
         List<ImportMovementDto> result = useCase.create(inputList);

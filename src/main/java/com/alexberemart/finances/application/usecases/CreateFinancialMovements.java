@@ -1,23 +1,31 @@
 package com.alexberemart.finances.application.usecases;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.alexberemart.finances.domain.models.FinancialMovement;
+import com.alexberemart.finances.domain.ports.dtos.ImportFinancialMovementDto;
+import com.alexberemart.finances.domain.ports.repositories.FinancialMovementRepository;
 
-import com.alexberemart.finances.domain.ports.dtos.FinancialMovementDto;
-import com.alexberemart.finances.domain.ports.dtos.ImportMovementDto;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CreateFinancialMovements {
 
-    public List<ImportMovementDto> create(List<FinancialMovementDto> financialMovements) throws Exception {
-        List<ImportMovementDto> result = new ArrayList<>();
-        for (FinancialMovementDto dto : financialMovements) {
-            ImportMovementDto importDto = new ImportMovementDto();
-            importDto.setDate(dto.getDate());
-            importDto.setDescription(dto.getDescription());
-            importDto.setAmount(dto.getAmount());
-            // Map more fields if needed
-            result.add(importDto);
-        }
-        return result;
+    private final FinancialMovementRepository repository;
+
+    public CreateFinancialMovements(FinancialMovementRepository repository) {
+        this.repository = repository;
+    }
+
+    public void create(List<ImportFinancialMovementDto> importDtos) {
+        List<FinancialMovement> movements = importDtos.stream()
+            .map(dto -> {
+                FinancialMovement fm = new FinancialMovement();
+                fm.setDate(dto.getDate());
+                fm.setDescription(dto.getDescription());
+                fm.setAmount(dto.getAmount());
+                fm.setLabel(dto.getLabel());
+                return fm;
+            })
+            .collect(Collectors.toList());
+        repository.saveAll(movements);
     }
 }

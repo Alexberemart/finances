@@ -8,13 +8,13 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-class SaveImportFinancialMovementsTest {
+class SaveDraftFinancialMovementsTest {
 
     @Test
     void save_shouldDelegateToRepository() {
         // Arrange
         ImportFinancialMovementRepository mockRepo = mock(ImportFinancialMovementRepository.class);
-        SaveImportFinancialMovements useCase = new SaveImportFinancialMovements(mockRepo);
+        SaveDraftFinancialMovements useCase = new SaveDraftFinancialMovements(mockRepo);
 
         ImportFinancialMovementDto dto = new ImportFinancialMovementDto();
         List<ImportFinancialMovementDto> dtos = List.of(dto);

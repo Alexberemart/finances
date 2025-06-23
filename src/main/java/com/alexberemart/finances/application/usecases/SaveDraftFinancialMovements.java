@@ -4,11 +4,11 @@ import com.alexberemart.finances.domain.ports.dtos.ImportFinancialMovementDto;
 import com.alexberemart.finances.domain.ports.repositories.ImportFinancialMovementRepository;
 import java.util.List;
 
-public class SaveImportFinancialMovements {
+public class SaveDraftFinancialMovements {
 
     private final ImportFinancialMovementRepository repository;
 
-    public SaveImportFinancialMovements(ImportFinancialMovementRepository repository) {
+    public SaveDraftFinancialMovements(ImportFinancialMovementRepository repository) {
         this.repository = repository;
     }
 

@@ -1,7 +1,7 @@
 package com.alexberemart.finances.infraestructure.in.ports;
 
 import com.alexberemart.finances.application.usecases.CreateDraftFinancialMovements;
-import com.alexberemart.finances.application.usecases.SaveImportFinancialMovements;
+import com.alexberemart.finances.application.usecases.SaveDraftFinancialMovements;
 import com.alexberemart.finances.domain.ports.dtos.FinancialMovementDto;
 import com.alexberemart.finances.domain.ports.dtos.ImportFinancialMovementDto;
 import com.alexberemart.finances.domain.ports.dtos.ImportMovementDto;
@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 class DraftFinancialMovementController {
 
   private final CreateDraftFinancialMovements createDraftFinancialMovements;
-  private final SaveImportFinancialMovements saveImportFinancialMovements;
+  private final SaveDraftFinancialMovements saveDraftFinancialMovements;
 
   DraftFinancialMovementController(
       CreateDraftFinancialMovements createDraftFinancialMovements,
-      SaveImportFinancialMovements saveImportFinancialMovements) {
+      SaveDraftFinancialMovements saveDraftFinancialMovements) {
     this.createDraftFinancialMovements = createDraftFinancialMovements;
-    this.saveImportFinancialMovements = saveImportFinancialMovements;
+    this.saveDraftFinancialMovements = saveDraftFinancialMovements;
   }
 
   @PostMapping("/api/financial-movements/import")
@@ -33,6 +33,6 @@ class DraftFinancialMovementController {
 
   @PostMapping("/api/financial-movements/save")
   void saveImportFinancialMovements(@RequestBody List<ImportFinancialMovementDto> importFinancialMovements) {
-    saveImportFinancialMovements.save(importFinancialMovements);
+    saveDraftFinancialMovements.save(importFinancialMovements);
   }
 }

@@ -15,6 +15,10 @@
     Run this script from the project root directory.
 #>
 
+param(
+    [string]$Profile = "local"
+)
+
 # Check if Docker is running
 $dockerRunning = docker info 2>$null
 
@@ -36,6 +40,9 @@ if ($container) {
     Write-Host "Removing existing finances-mysql container..."
     docker rm -f finances-mysql
 }
+
+# Set the profile for docker-compose
+$env:SPRING_PROFILES_ACTIVE = $Profile
 
 # Build and start Docker Compose services
 docker-compose build --no-cache

@@ -1,3 +1,8 @@
 .upload-section {
   margin-bottom: 2rem;
 }
+
+.skipped-row {
+  border-left: 4px solid #ffe082;
+  text-decoration: line-through; /* optional: strike-through text */
+}

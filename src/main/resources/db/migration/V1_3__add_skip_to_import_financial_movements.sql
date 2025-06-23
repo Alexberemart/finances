@@ -1,0 +1,2 @@
+ALTER TABLE import_financial_movements
+ADD COLUMN skip BOOLEAN NOT NULL DEFAULT FALSE;

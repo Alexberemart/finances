@@ -3,6 +3,7 @@ package com.alexberemart.finances.infraestructure.out.adapters;
 import com.alexberemart.finances.domain.ports.dtos.ImportFinancialMovementDto;
 import com.alexberemart.finances.domain.ports.repositories.ImportFinancialMovementRepository;
 import com.alexberemart.finances.infraestructure.out.entities.ImportFinancialMovementEntity;
+import com.alexberemart.finances.infraestructure.out.mappers.ImportFinancialMovementMapper;
 import com.alexberemart.finances.infraestructure.out.repositories.JpaImportFinancialMovementRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,14 +22,7 @@ public class ImportFinancialMovementRepositoryAdapter implements ImportFinancial
     @Override
     public void saveAll(List<ImportFinancialMovementDto> importFinancialMovements) {
         List<ImportFinancialMovementEntity> entities = importFinancialMovements.stream()
-            .map(dto -> {
-                ImportFinancialMovementEntity entity = new ImportFinancialMovementEntity();
-                entity.setDate(dto.getDate());
-                entity.setDescription(dto.getDescription());
-                entity.setAmount(dto.getAmount());
-                entity.setLabel(dto.getLabel());
-                return entity;
-            })
+            .map((ImportFinancialMovementDto dto) -> ImportFinancialMovementMapper.toEntity(dto))
             .collect(Collectors.toList());
         jpaRepository.saveAll(entities);
     }

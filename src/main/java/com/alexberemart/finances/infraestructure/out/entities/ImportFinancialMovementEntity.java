@@ -21,6 +21,8 @@ public class ImportFinancialMovementEntity {
 
     private String label;
 
+    private boolean skip;
+
     // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -36,4 +38,7 @@ public class ImportFinancialMovementEntity {
 
     public String getLabel() { return label; }
     public void setLabel(String label) { this.label = label; }
+
+    public boolean isSkip() { return skip; }
+    public void setSkip(boolean skip) { this.skip = skip; }
 }

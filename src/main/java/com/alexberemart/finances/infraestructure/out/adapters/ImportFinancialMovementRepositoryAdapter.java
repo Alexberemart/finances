@@ -1,6 +1,6 @@
 package com.alexberemart.finances.infraestructure.out.adapters;
 
-import com.alexberemart.finances.domain.ports.dtos.ImportFinancialMovementDto;
+import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 import com.alexberemart.finances.domain.ports.repositories.ImportFinancialMovementRepository;
 import com.alexberemart.finances.infraestructure.out.entities.ImportFinancialMovementEntity;
 import com.alexberemart.finances.infraestructure.out.mappers.ImportFinancialMovementMapper;
@@ -20,9 +20,9 @@ public class ImportFinancialMovementRepositoryAdapter implements ImportFinancial
     }
 
     @Override
-    public void saveAll(List<ImportFinancialMovementDto> importFinancialMovements) {
-        List<ImportFinancialMovementEntity> entities = importFinancialMovements.stream()
-            .map((ImportFinancialMovementDto dto) -> ImportFinancialMovementMapper.toEntity(dto))
+    public void saveAll(List<DraftFinancialMovementDto> draftFinancialMovements) {
+        List<ImportFinancialMovementEntity> entities = draftFinancialMovements.stream()
+            .map(ImportFinancialMovementMapper::toEntity)
             .collect(Collectors.toList());
         jpaRepository.saveAll(entities);
     }

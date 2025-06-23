@@ -1,8 +1,8 @@
 package com.alexberemart.finances.domain.ports.repositories;
 
-import com.alexberemart.finances.domain.ports.dtos.ImportFinancialMovementDto;
+import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 import java.util.List;
 
 public interface ImportFinancialMovementRepository {
-    void saveAll(List<ImportFinancialMovementDto> importFinancialMovements);
+    void saveAll(List<DraftFinancialMovementDto> importFinancialMovements);
 }

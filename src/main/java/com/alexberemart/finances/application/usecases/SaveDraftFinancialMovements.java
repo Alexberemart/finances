@@ -1,6 +1,6 @@
 package com.alexberemart.finances.application.usecases;
 
-import com.alexberemart.finances.domain.ports.dtos.ImportFinancialMovementDto;
+import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 import com.alexberemart.finances.domain.ports.repositories.ImportFinancialMovementRepository;
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class SaveDraftFinancialMovements {
         this.repository = repository;
     }
 
-    public void save(List<ImportFinancialMovementDto> importFinancialMovements) {
-        repository.saveAll(importFinancialMovements);
+    public void save(List<DraftFinancialMovementDto> draftFinancialMovements) {
+        repository.saveAll(draftFinancialMovements);
     }
 }

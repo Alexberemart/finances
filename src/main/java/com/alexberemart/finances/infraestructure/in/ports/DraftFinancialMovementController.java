@@ -2,8 +2,8 @@ package com.alexberemart.finances.infraestructure.in.ports;
 
 import com.alexberemart.finances.application.usecases.CreateDraftFinancialMovements;
 import com.alexberemart.finances.application.usecases.SaveDraftFinancialMovements;
+import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 import com.alexberemart.finances.domain.ports.dtos.FinancialMovementDto;
-import com.alexberemart.finances.domain.ports.dtos.ImportFinancialMovementDto;
 import com.alexberemart.finances.domain.ports.dtos.ImportMovementDto;
 
 import java.util.List;
@@ -32,7 +32,7 @@ class DraftFinancialMovementController {
   }
 
   @PostMapping("/api/financial-movements/save")
-  void saveImportFinancialMovements(@RequestBody List<ImportFinancialMovementDto> importFinancialMovements) {
-    saveDraftFinancialMovements.save(importFinancialMovements);
+  void saveImportFinancialMovements(@RequestBody List<DraftFinancialMovementDto> draftFinancialMovementDtos) {
+    saveDraftFinancialMovements.save(draftFinancialMovementDtos);
   }
 }

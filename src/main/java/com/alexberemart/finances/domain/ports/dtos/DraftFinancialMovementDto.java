@@ -3,7 +3,7 @@ package com.alexberemart.finances.domain.ports.dtos;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class ImportFinancialMovementDto {
+public class DraftFinancialMovementDto {
     private Date date;
     private String description;
     private BigDecimal amount;

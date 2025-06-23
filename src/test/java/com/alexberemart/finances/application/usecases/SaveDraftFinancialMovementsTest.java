@@ -1,12 +1,15 @@
 package com.alexberemart.finances.application.usecases;
 
-import com.alexberemart.finances.domain.ports.dtos.ImportFinancialMovementDto;
-import com.alexberemart.finances.domain.ports.repositories.ImportFinancialMovementRepository;
-import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
+
+import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
+import com.alexberemart.finances.domain.ports.repositories.ImportFinancialMovementRepository;
 
 class SaveDraftFinancialMovementsTest {
 
@@ -16,8 +19,8 @@ class SaveDraftFinancialMovementsTest {
         ImportFinancialMovementRepository mockRepo = mock(ImportFinancialMovementRepository.class);
         SaveDraftFinancialMovements useCase = new SaveDraftFinancialMovements(mockRepo);
 
-        ImportFinancialMovementDto dto = new ImportFinancialMovementDto();
-        List<ImportFinancialMovementDto> dtos = List.of(dto);
+        DraftFinancialMovementDto dto = new DraftFinancialMovementDto();
+        List<DraftFinancialMovementDto> dtos = List.of(dto);
 
         // Act
         useCase.save(dtos);

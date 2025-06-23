@@ -1,6 +1,6 @@
 package com.alexberemart.finances.infraestructure.out.adapters;
 
-import com.alexberemart.finances.domain.ports.dtos.ImportFinancialMovementDto;
+import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 import com.alexberemart.finances.infraestructure.out.entities.ImportFinancialMovementEntity;
 import com.alexberemart.finances.infraestructure.out.repositories.JpaImportFinancialMovementRepository;
 import org.junit.jupiter.api.Test;
@@ -19,13 +19,13 @@ class ImportFinancialMovementRepositoryAdapterTest {
         JpaImportFinancialMovementRepository mockJpaRepo = mock(JpaImportFinancialMovementRepository.class);
         ImportFinancialMovementRepositoryAdapter adapter = new ImportFinancialMovementRepositoryAdapter(mockJpaRepo);
 
-        ImportFinancialMovementDto dto = new ImportFinancialMovementDto();
+        DraftFinancialMovementDto dto = new DraftFinancialMovementDto();
         dto.setDate(new Date());
         dto.setDescription("desc");
         dto.setAmount(BigDecimal.TEN);
         dto.setLabel("label");
 
-        List<ImportFinancialMovementDto> dtos = List.of(dto);
+        List<DraftFinancialMovementDto> dtos = List.of(dto);
 
         // Act
         adapter.saveAll(dtos);

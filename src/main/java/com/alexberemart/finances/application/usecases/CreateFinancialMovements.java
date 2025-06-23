@@ -1,7 +1,7 @@
 package com.alexberemart.finances.application.usecases;
 
 import com.alexberemart.finances.domain.models.FinancialMovement;
-import com.alexberemart.finances.domain.ports.dtos.ImportFinancialMovementDto;
+import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 import com.alexberemart.finances.domain.ports.repositories.FinancialMovementRepository;
 
 import java.util.List;
@@ -15,8 +15,8 @@ public class CreateFinancialMovements {
         this.repository = repository;
     }
 
-    public void create(List<ImportFinancialMovementDto> importDtos) {
-        List<FinancialMovement> movements = importDtos.stream()
+    public void create(List<DraftFinancialMovementDto> draftDtos) {
+        List<FinancialMovement> movements = draftDtos.stream()
             .map(dto -> {
                 FinancialMovement fm = new FinancialMovement();
                 fm.setDate(dto.getDate());

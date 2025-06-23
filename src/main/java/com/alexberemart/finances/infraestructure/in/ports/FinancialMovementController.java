@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alexberemart.finances.application.usecases.CreateFinancialMovements;
-import com.alexberemart.finances.domain.ports.dtos.ImportFinancialMovementDto;
+import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 
 @RestController
 class FinancialMovementController {
@@ -18,7 +18,7 @@ class FinancialMovementController {
   }
 
   @PostMapping("/api/financial-movements")
-  void saveFinancialMovements(@RequestBody List<ImportFinancialMovementDto> importFinancialMovements) {
-    createFinancialMovements.create(importFinancialMovements);
+  void saveFinancialMovements(@RequestBody List<DraftFinancialMovementDto> draftFinancialMovements) {
+    createFinancialMovements.create(draftFinancialMovements);
   }
 }

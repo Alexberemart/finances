@@ -1,10 +1,10 @@
 package com.alexberemart.finances.infraestructure.out.mappers;
 
-import com.alexberemart.finances.domain.ports.dtos.ImportFinancialMovementDto;
+import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 import com.alexberemart.finances.infraestructure.out.entities.ImportFinancialMovementEntity;
 
 public class ImportFinancialMovementMapper {
-    public static ImportFinancialMovementEntity toEntity(ImportFinancialMovementDto dto) {
+    public static ImportFinancialMovementEntity toEntity(DraftFinancialMovementDto dto) {
         ImportFinancialMovementEntity entity = new ImportFinancialMovementEntity();
         entity.setDate(dto.getDate());
         entity.setDescription(dto.getDescription());

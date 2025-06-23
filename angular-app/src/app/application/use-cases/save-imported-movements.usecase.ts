@@ -8,7 +8,7 @@ export class SaveImportedMovementsUseCase {
   constructor(private service: ImportFinancialMovementsService) {}
 
   execute(movements: ImportFinancialMovement[]): Observable<any> {
-    const toRegister = movements.filter(m => !m.skip);
-    return this.service.saveImportedMovements(toRegister);
+    // Save all movements, regardless of skip flag
+    return this.service.saveImportedMovements(movements);
   }
 }

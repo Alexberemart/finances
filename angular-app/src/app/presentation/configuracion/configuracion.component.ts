@@ -11,6 +11,7 @@ import { ImportFinancialMovement } from '../../domain/models/import-financial-mo
 import { ImportFileUseCase } from '../../application/use-cases/import-file.usecase';
 import { LabelService } from '../../infrastructure/services/label.service';
 import { SaveImportedMovementsUseCase } from '../../application/use-cases/save-imported-movements.usecase';
+import { RegisterNotSkippedMovementsUseCase } from '../../application/use-cases/register-not-skipped-movements.usecase';
 
 @Component({
   selector: 'app-configuracion',
@@ -31,6 +32,7 @@ export class ConfiguracionComponent implements OnInit {
   private importFileUseCase = inject(ImportFileUseCase);
   private labelService = inject(LabelService);
   private saveImportedMovementsUseCase = inject(SaveImportedMovementsUseCase);
+  private registerNotSkippedMovementsUseCase = inject(RegisterNotSkippedMovementsUseCase);
 
   importData: ImportFinancialMovement[] = [];
   displayedColumns: string[] = ['skip', 'date', 'description', 'amount', 'label'];
@@ -85,5 +87,21 @@ export class ConfiguracionComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+
+  onRegisterNotSkipped() {
+    this.registerNotSkippedMovementsUseCase.execute(this.importData).subscribe({
+      next: () => {
+        alert('Movimientos no saltados registrados correctamente.');
+      },
+      error: (err) => {
+        alert('Error al registrar movimientos no saltados.');
+        console.error(err);
+      }
+    });
+  }
+
+  get hasNotSkippedMovements(): boolean {
+    return this.importData.some(m => !m.skip);
   }
 }

@@ -27,10 +27,10 @@ if (-not $dockerRunning) {
     exit 1
 }
 
-# Build the project with Maven
-$mvn = Start-Process mvn -ArgumentList 'clean', 'package' -NoNewWindow -Wait -PassThru
+# Build the project with Maven and check coverage
+$mvn = Start-Process mvn -ArgumentList 'clean', 'verify' -NoNewWindow -Wait -PassThru
 if ($mvn.ExitCode -ne 0) {
-    Write-Host "Maven build failed. Exiting."
+    Write-Host "Maven build (with coverage) failed. Exiting."
     exit $mvn.ExitCode
 }
 

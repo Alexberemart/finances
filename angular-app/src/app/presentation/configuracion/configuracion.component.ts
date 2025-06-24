@@ -6,6 +6,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { ImportFinancialMovement } from '../../domain/models/import-financial-movement.model';
 import { ImportFileUseCase } from '../../application/use-cases/import-file.usecase';
@@ -24,7 +26,9 @@ import { LoadDraftFinancialMovementsUseCase } from '../../application/use-cases/
     FormsModule,
     MatButtonModule,
     MatIconModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatCardModule,
+    MatDividerModule
   ],
   templateUrl: './configuracion.component.html',
   styleUrls: ['./configuracion.component.css']
@@ -133,5 +137,13 @@ export class ConfiguracionComponent implements OnInit {
   // Also update when toggling skip checkbox:
   onSkipChange() {
     this.isDraftDirty = true;
+  }
+
+  deleteAllDraftMovements() {
+    // Implement your logic here, for example:
+    this.importData = [];
+    this.isDraftDirty = false;
+    // Optionally, call a use case/service to delete from backend if needed
+    // this.deleteDraftFinancialMovementsUseCase.execute().subscribe();
   }
 }

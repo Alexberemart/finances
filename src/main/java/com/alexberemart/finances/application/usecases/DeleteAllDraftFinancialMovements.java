@@ -1,12 +1,12 @@
 package com.alexberemart.finances.application.usecases;
 
-import com.alexberemart.finances.domain.ports.repositories.ImportFinancialMovementRepository;
+import com.alexberemart.finances.domain.ports.repositories.DraftFinancialMovementRepository;
 
 public class DeleteAllDraftFinancialMovements {
 
-    private final ImportFinancialMovementRepository repository;
+    private final DraftFinancialMovementRepository repository;
 
-    public DeleteAllDraftFinancialMovements(ImportFinancialMovementRepository repository) {
+    public DeleteAllDraftFinancialMovements(DraftFinancialMovementRepository repository) {
         this.repository = repository;
     }
 

@@ -34,4 +34,8 @@ export class ImportFinancialMovementsService {
   replaceAllDraftMovements(movements: ImportFinancialMovement[]): Observable<any> {
     return this.http.post(this.replaceAllUrl, movements);
   }
+
+  getAllDraftMovements(): Observable<ImportFinancialMovement[]> {
+    return this.http.get<ImportFinancialMovement[]>(this.draftUrl);
+  }
 }

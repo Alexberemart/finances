@@ -9,7 +9,7 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ImportFinancialMovementMapperTest {
+class DraftFinancialMovementMapperTest {
 
     @Test
     void toEntity_shouldMapDtoToEntityCorrectly() {
@@ -23,7 +23,7 @@ class ImportFinancialMovementMapperTest {
         dto.setSkip(true);
 
         // Act
-        ImportFinancialMovementEntity entity = ImportFinancialMovementMapper.toEntity(dto);
+        ImportFinancialMovementEntity entity = DraftFinancialMovementMapper.toEntity(dto);
 
         // Assert
         assertEquals(dto.getDate(), entity.getDate());
@@ -31,5 +31,27 @@ class ImportFinancialMovementMapperTest {
         assertEquals(dto.getAmount(), entity.getAmount());
         assertEquals(dto.getLabel(), entity.getLabel());
         assertEquals(dto.getSkip(), entity.isSkip());
+    }
+
+    @Test
+    void toDto_shouldMapEntityToDtoCorrectly() {
+        // Arrange
+        ImportFinancialMovementEntity entity = new ImportFinancialMovementEntity();
+        Date now = new Date();
+        entity.setDate(now);
+        entity.setDescription("desc");
+        entity.setAmount(BigDecimal.TEN);
+        entity.setLabel("label");
+        entity.setSkip(true);
+
+        // Act
+        DraftFinancialMovementDto dto = DraftFinancialMovementMapper.toDto(entity);
+
+        // Assert
+        assertEquals(entity.getDate(), dto.getDate());
+        assertEquals(entity.getDescription(), dto.getDescription());
+        assertEquals(entity.getAmount(), dto.getAmount());
+        assertEquals(entity.getLabel(), dto.getLabel());
+        assertEquals(entity.isSkip(), dto.getSkip());
     }
 }

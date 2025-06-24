@@ -9,14 +9,14 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
-import com.alexberemart.finances.domain.ports.repositories.ImportFinancialMovementRepository;
+import com.alexberemart.finances.domain.ports.repositories.DraftFinancialMovementRepository;
 
 class SaveDraftFinancialMovementsTest {
 
     @Test
     void save_shouldDelegateToRepository() {
         // Arrange
-        ImportFinancialMovementRepository mockRepo = mock(ImportFinancialMovementRepository.class);
+        DraftFinancialMovementRepository mockRepo = mock(DraftFinancialMovementRepository.class);
         SaveDraftFinancialMovements useCase = new SaveDraftFinancialMovements(mockRepo);
 
         DraftFinancialMovementDto dto = new DraftFinancialMovementDto();

@@ -29,6 +29,11 @@
   Registrar movimientos seleccionados
 </button>
 
+<button mat-raised-button color="primary" (click)="loadDraftMovements()">
+  <mat-icon>cloud_download</mat-icon>
+  Cargar borrador guardado
+</button>
+
 <mat-table *ngIf="importData.length > 0" [dataSource]="importData" class="mat-elevation-z2">
 
   <ng-container matColumnDef="skip">

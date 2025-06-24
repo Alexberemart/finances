@@ -12,6 +12,7 @@ import { ImportFileUseCase } from '../../application/use-cases/import-file.useca
 import { LabelService } from '../../infrastructure/services/label.service';
 import { SaveImportedMovementsUseCase } from '../../application/use-cases/save-imported-movements.usecase';
 import { RegisterNotSkippedMovementsUseCase } from '../../application/use-cases/register-not-skipped-movements.usecase';
+import { LoadDraftFinancialMovementsUseCase } from '../../application/use-cases/load-draft-financial-movements.usecase';
 
 @Component({
   selector: 'app-configuracion',
@@ -33,6 +34,7 @@ export class ConfiguracionComponent implements OnInit {
   private labelService = inject(LabelService);
   private saveImportedMovementsUseCase = inject(SaveImportedMovementsUseCase);
   private registerNotSkippedMovementsUseCase = inject(RegisterNotSkippedMovementsUseCase);
+  private loadDraftFinancialMovementsUseCase = inject(LoadDraftFinancialMovementsUseCase);
 
   importData: ImportFinancialMovement[] = [];
   displayedColumns: string[] = ['skip', 'date', 'description', 'amount', 'label'];
@@ -101,6 +103,19 @@ export class ConfiguracionComponent implements OnInit {
       },
       error: (err) => {
         alert('Error al registrar movimientos no saltados.');
+        console.error(err);
+      }
+    });
+  }
+
+  loadDraftMovements() {
+    this.loadDraftFinancialMovementsUseCase.execute().subscribe({
+      next: (movements) => {
+        this.importData = movements;
+        alert('Borradores cargados correctamente.');
+      },
+      error: (err) => {
+        alert('Error al cargar borradores.');
         console.error(err);
       }
     });

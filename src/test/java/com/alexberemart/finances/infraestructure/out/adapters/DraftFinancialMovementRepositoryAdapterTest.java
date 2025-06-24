@@ -11,13 +11,13 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-class ImportFinancialMovementRepositoryAdapterTest {
+class DraftFinancialMovementRepositoryAdapterTest {
 
     @Test
     void saveAll_shouldMapDtosToEntitiesAndCallJpaRepository() {
         // Arrange
         JpaImportFinancialMovementRepository mockJpaRepo = mock(JpaImportFinancialMovementRepository.class);
-        ImportFinancialMovementRepositoryAdapter adapter = new ImportFinancialMovementRepositoryAdapter(mockJpaRepo);
+        DraftFinancialMovementRepositoryAdapter adapter = new DraftFinancialMovementRepositoryAdapter(mockJpaRepo);
 
         DraftFinancialMovementDto dto = new DraftFinancialMovementDto();
         dto.setDate(new Date());

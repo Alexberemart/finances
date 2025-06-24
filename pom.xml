@@ -126,6 +126,7 @@
 						<exclude>com/alexberemart/finances/*.class</exclude>
 						<exclude>com/alexberemart/finances/infraestructure/out/entities/*</exclude>
 						<exclude>**/*Config*</exclude>
+						<exclude>com/alexberemart/finances/infraestructure/services/*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

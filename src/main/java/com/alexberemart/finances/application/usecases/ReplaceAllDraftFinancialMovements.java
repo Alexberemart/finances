@@ -1,8 +1,6 @@
 package com.alexberemart.finances.application.usecases;
 
 import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 public class ReplaceAllDraftFinancialMovements {

@@ -1,5 +1,22 @@
 .upload-section {
   margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.file-name {
+  font-style: italic;
+  color: #555;
+}
+
+.draft-warning {
+  display: flex;
+  align-items: center;
+  color: #d32f2f;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
 }
 
 .skipped-row {

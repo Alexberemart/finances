@@ -40,6 +40,7 @@ export class ConfiguracionComponent implements OnInit {
   displayedColumns: string[] = ['skip', 'date', 'description', 'amount', 'label'];
   labels: string[] = [];
   selectedFileName: string | null = null;
+  isDraftDirty = false; // <-- Add this line
 
   ngOnInit() {
     this.labelService.getLabels().subscribe(labels => {
@@ -55,6 +56,7 @@ export class ConfiguracionComponent implements OnInit {
     this.selectedFileName = file.name;
     try {
       this.importData = await this.importFileUseCase.importFileAndMapToFinancialMovements(file);
+      this.isDraftDirty = true; // Mark as dirty
     } catch (error) {
       console.error('Error importing file:', error);
     }
@@ -75,6 +77,7 @@ export class ConfiguracionComponent implements OnInit {
   }
 
   onLabelChange(row: ImportFinancialMovement) {
+    this.isDraftDirty = true; // Mark as dirty
     // Handle label change if needed (e.g., save to backend)
     console.log('Label changed for row:', row);
   }
@@ -88,6 +91,7 @@ export class ConfiguracionComponent implements OnInit {
     this.saveImportedMovementsUseCase.replaceAllDraftMovements(this.importData).subscribe({
       next: () => {
         alert('Movimientos guardados correctamente.');
+        this.isDraftDirty = false; // Reset dirty flag after saving
       },
       error: (err) => {
         alert('Error al eliminar o guardar movimientos.');
@@ -112,6 +116,7 @@ export class ConfiguracionComponent implements OnInit {
     this.loadDraftFinancialMovementsUseCase.execute().subscribe({
       next: (movements) => {
         this.importData = movements;
+        this.isDraftDirty = false; // Reset dirty flag after loading
         alert('Borradores cargados correctamente.');
       },
       error: (err) => {
@@ -123,5 +128,10 @@ export class ConfiguracionComponent implements OnInit {
 
   get hasNotSkippedMovements(): boolean {
     return this.importData.some(m => !m.skip);
+  }
+
+  // Also update when toggling skip checkbox:
+  onSkipChange() {
+    this.isDraftDirty = true;
   }
 }

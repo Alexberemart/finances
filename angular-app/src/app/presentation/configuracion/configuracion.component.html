@@ -34,12 +34,17 @@
   Cargar borrador guardado
 </button>
 
+<div *ngIf="isDraftDirty" class="draft-warning">
+  <mat-icon color="warn">warning</mat-icon>
+  <span>¡Tienes cambios sin guardar en el borrador!</span>
+</div>
+
 <mat-table *ngIf="importData.length > 0" [dataSource]="importData" class="mat-elevation-z2">
 
   <ng-container matColumnDef="skip">
     <mat-header-cell *matHeaderCellDef> No registrar </mat-header-cell>
     <mat-cell *matCellDef="let row">
-      <mat-checkbox [(ngModel)]="row.skip"></mat-checkbox>
+      <mat-checkbox [(ngModel)]="row.skip" (change)="onSkipChange()"></mat-checkbox>
     </mat-cell>
   </ng-container>
 
@@ -73,16 +78,3 @@
     [ngClass]="{'skipped-row': row.skip}">
   </mat-row>
 </mat-table>
-
-<style>
-.upload-section {
-  margin-bottom: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-.file-name {
-  font-style: italic;
-  color: #555;
-}
-</style>

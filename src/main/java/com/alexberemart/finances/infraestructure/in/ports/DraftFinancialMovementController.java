@@ -3,9 +3,11 @@ package com.alexberemart.finances.infraestructure.in.ports;
 import com.alexberemart.finances.application.usecases.CreateDraftFinancialMovements;
 import com.alexberemart.finances.application.usecases.SaveDraftFinancialMovements;
 import com.alexberemart.finances.application.usecases.DeleteAllDraftFinancialMovements;
+import com.alexberemart.finances.application.usecases.ReplaceAllDraftFinancialMovements;
 import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 import com.alexberemart.finances.domain.ports.dtos.FinancialMovementDto;
 import com.alexberemart.finances.domain.ports.dtos.ImportMovementDto;
+import com.alexberemart.finances.infraestructure.services.DraftFinancialMovementTransactionalService;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 class DraftFinancialMovementController {
@@ -20,14 +23,18 @@ class DraftFinancialMovementController {
   private final CreateDraftFinancialMovements createDraftFinancialMovements;
   private final SaveDraftFinancialMovements saveDraftFinancialMovements;
   private final DeleteAllDraftFinancialMovements deleteAllDraftFinancialMovements;
+  private final DraftFinancialMovementTransactionalService transactionalService;
 
   DraftFinancialMovementController(
       CreateDraftFinancialMovements createDraftFinancialMovements,
       SaveDraftFinancialMovements saveDraftFinancialMovements,
-      DeleteAllDraftFinancialMovements deleteAllDraftFinancialMovements) {
+      DeleteAllDraftFinancialMovements deleteAllDraftFinancialMovements,
+      ReplaceAllDraftFinancialMovements replaceAllDraftFinancialMovements,
+      DraftFinancialMovementTransactionalService transactionalService) {
     this.createDraftFinancialMovements = createDraftFinancialMovements;
     this.saveDraftFinancialMovements = saveDraftFinancialMovements;
     this.deleteAllDraftFinancialMovements = deleteAllDraftFinancialMovements;
+    this.transactionalService = transactionalService;
   }
 
   @PostMapping("/api/draft-financial-movements/create")
@@ -44,5 +51,11 @@ class DraftFinancialMovementController {
   @DeleteMapping("/api/draft-financial-movements")
   void deleteAllDraftFinancialMovements() {
     deleteAllDraftFinancialMovements.deleteAll();
+  }
+
+  @PostMapping("/api/draft-financial-movements/replace-all")
+  public ResponseEntity<Void> replaceAllDraftFinancialMovements(@RequestBody List<DraftFinancialMovementDto> newMovements) {
+      transactionalService.replaceAllDraftFinancialMovements(newMovements);
+      return ResponseEntity.ok().build();
   }
 }

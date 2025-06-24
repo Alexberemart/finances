@@ -77,13 +77,18 @@ export class ConfiguracionComponent implements OnInit {
     console.log('Label changed for row:', row);
   }
 
-  onSave() {
-    this.saveImportedMovementsUseCase.execute(this.importData).subscribe({
+  async onSave() {
+    const confirmed = window.confirm('¿Estás seguro de que quieres eliminar todos los movimientos previos y guardar los nuevos?');
+    if (!confirmed) {
+      return;
+    }
+
+    this.saveImportedMovementsUseCase.replaceAllDraftMovements(this.importData).subscribe({
       next: () => {
         alert('Movimientos guardados correctamente.');
       },
       error: (err) => {
-        alert('Error al guardar movimientos.');
+        alert('Error al eliminar o guardar movimientos.');
         console.error(err);
       }
     });

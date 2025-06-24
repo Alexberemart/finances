@@ -7,8 +7,7 @@ import { Observable } from 'rxjs';
 export class SaveImportedMovementsUseCase {
   constructor(private service: ImportFinancialMovementsService) {}
 
-  execute(movements: ImportFinancialMovement[]): Observable<any> {
-    // Save all movements, regardless of skip flag
-    return this.service.saveImportedMovements(movements);
+  replaceAllDraftMovements(movements: ImportFinancialMovement[]): Observable<any> {
+    return this.service.replaceAllDraftMovements(movements);
   }
 }

@@ -10,8 +10,10 @@ import { environment } from '../../../environments/environment';
 export class ImportFinancialMovementsService {
   private http = inject(HttpClient);
 
-  private readonly createUrl = `${environment.apiUrl}/draft-financial-movements/create`;
-  private readonly saveUrl = `${environment.apiUrl}/draft-financial-movements/save`;
+  private readonly draftUrl = `${environment.apiUrl}/draft-financial-movements`;
+  private readonly createUrl = `${this.draftUrl}/create`;
+  private readonly saveUrl = `${this.draftUrl}/save`;
+  private readonly replaceAllUrl = `${this.draftUrl}/replace-all`;
 
   // Returns raw movements (no label)
   createImportMovements(bbvaData: BBVAImportData[]): Promise<ImportedMovementRaw[]> {
@@ -23,5 +25,13 @@ export class ImportFinancialMovementsService {
   // Saves movements with label
   saveImportedMovements(movements: ImportFinancialMovement[]): Observable<any> {
     return this.http.post(this.saveUrl, movements);
+  }
+
+  deleteAllDraftMovements(): Observable<any> {
+    return this.http.delete(this.draftUrl);
+  }
+
+  replaceAllDraftMovements(movements: ImportFinancialMovement[]): Observable<any> {
+    return this.http.post(this.replaceAllUrl, movements);
   }
 }

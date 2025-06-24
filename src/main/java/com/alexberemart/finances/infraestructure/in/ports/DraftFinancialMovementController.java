@@ -3,7 +3,7 @@ package com.alexberemart.finances.infraestructure.in.ports;
 import com.alexberemart.finances.application.usecases.CreateDraftFinancialMovements;
 import com.alexberemart.finances.application.usecases.SaveDraftFinancialMovements;
 import com.alexberemart.finances.application.usecases.DeleteAllDraftFinancialMovements;
-import com.alexberemart.finances.application.usecases.ReplaceAllDraftFinancialMovements;
+import com.alexberemart.finances.application.usecases.GetAllDraftFinancialMovements;
 import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 import com.alexberemart.finances.domain.ports.dtos.FinancialMovementDto;
 import com.alexberemart.finances.domain.ports.dtos.ImportMovementDto;
@@ -24,17 +24,19 @@ class DraftFinancialMovementController {
   private final CreateDraftFinancialMovements createDraftFinancialMovements;
   private final SaveDraftFinancialMovements saveDraftFinancialMovements;
   private final DeleteAllDraftFinancialMovements deleteAllDraftFinancialMovements;
+  private final GetAllDraftFinancialMovements getAllDraftFinancialMovements;
   private final DraftFinancialMovementTransactionalService transactionalService;
 
   DraftFinancialMovementController(
       CreateDraftFinancialMovements createDraftFinancialMovements,
       SaveDraftFinancialMovements saveDraftFinancialMovements,
       DeleteAllDraftFinancialMovements deleteAllDraftFinancialMovements,
-      ReplaceAllDraftFinancialMovements replaceAllDraftFinancialMovements,
+      GetAllDraftFinancialMovements getAllDraftFinancialMovements,
       DraftFinancialMovementTransactionalService transactionalService) {
     this.createDraftFinancialMovements = createDraftFinancialMovements;
     this.saveDraftFinancialMovements = saveDraftFinancialMovements;
     this.deleteAllDraftFinancialMovements = deleteAllDraftFinancialMovements;
+    this.getAllDraftFinancialMovements = getAllDraftFinancialMovements;
     this.transactionalService = transactionalService;
   }
 
@@ -62,6 +64,6 @@ class DraftFinancialMovementController {
 
   @GetMapping("/api/draft-financial-movements")
   public List<DraftFinancialMovementDto> getAllDraftFinancialMovements() {
-      return transactionalService.getAllDraftFinancialMovements();
+      return getAllDraftFinancialMovements.execute();
   }
 }

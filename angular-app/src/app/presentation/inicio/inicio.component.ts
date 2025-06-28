@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { CuentaService } from '../../infrastructure/services/cuenta.service'; // <-- FIXED
+import { BankAccountService } from '../../infrastructure/services/bank-account.service'; // <-- Use BankAccountService
 import { BankAccount } from '../../domain/models/bank-account.model';
 
 @Component({
@@ -13,14 +13,14 @@ import { BankAccount } from '../../domain/models/bank-account.model';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
-  private cuentaService = inject(CuentaService);
+  private bankAccountService = inject(BankAccountService);
 
-  bankAccount?: BankAccount;
+  bankAccounts: BankAccount[] = [];
   ultimaActualizacion = new Date();
 
   ngOnInit(): void {
-    this.cuentaService.getBankAccount().subscribe(account => {
-      this.bankAccount = account;
+    this.bankAccountService.getBankAccounts().subscribe(accounts => {
+      this.bankAccounts = accounts;
       this.ultimaActualizacion = new Date();
     });
   }

@@ -1,20 +1,23 @@
 <h2>Bienvenido a la página de inicio</h2>
 <p>Este es el apartado de inicio. Aquí podrás ver información general.</p>
-<mat-card class="dashboard-card" *ngIf="bankAccount">
-  <mat-card-header>
-    <mat-card-title>Saldo de tu cuenta</mat-card-title>
-    <mat-card-subtitle>{{ bankAccount.name }}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="saldo">
-      <span class="saldo-cantidad">{{ bankAccount.balance | number:'1.2-2' }}&nbsp;{{ bankAccount.currency }}</span>
-    </div>
-    <div class="saldo-detalle">
-      <span>Última actualización: {{ ultimaActualizacion | date:'dd/MM/yyyy' }}</span>
-    </div>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="primary">Ver movimientos</button>
-    <button mat-button color="accent">Añadir ingreso</button>
-  </mat-card-actions>
-</mat-card>
+
+<ng-container *ngFor="let bankAccount of bankAccounts">
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>Saldo de tu cuenta</mat-card-title>
+      <mat-card-subtitle>{{ bankAccount.name }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="saldo">
+        <span class="saldo-cantidad">{{ bankAccount.balance | number:'1.2-2' }}&nbsp;{{ bankAccount.currency }}</span>
+      </div>
+      <div class="saldo-detalle">
+        <span>Última actualización: {{ ultimaActualizacion | date:'dd/MM/yyyy' }}</span>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary">Ver movimientos</button>
+      <button mat-button color="accent">Añadir ingreso</button>
+    </mat-card-actions>
+  </mat-card>
+</ng-container>

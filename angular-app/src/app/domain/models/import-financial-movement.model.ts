@@ -4,4 +4,5 @@ export interface ImportFinancialMovement {
   amount: number;
   label?: string;
   skip?: boolean;
+  bankAccountId?: string;
 }

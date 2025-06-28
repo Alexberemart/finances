@@ -15,6 +15,8 @@ import { LabelService } from '../../infrastructure/services/label.service';
 import { SaveImportedMovementsUseCase } from '../../application/use-cases/save-imported-movements.usecase';
 import { RegisterNotSkippedMovementsUseCase } from '../../application/use-cases/register-not-skipped-movements.usecase';
 import { LoadDraftFinancialMovementsUseCase } from '../../application/use-cases/load-draft-financial-movements.usecase';
+import { BankAccount } from '../../domain/models/bank-account.model';
+import { BankAccountService } from '../../infrastructure/services/bank-account.service';
 
 @Component({
   selector: 'app-configuracion',
@@ -39,16 +41,21 @@ export class ConfiguracionComponent implements OnInit {
   private saveImportedMovementsUseCase = inject(SaveImportedMovementsUseCase);
   private registerNotSkippedMovementsUseCase = inject(RegisterNotSkippedMovementsUseCase);
   private loadDraftFinancialMovementsUseCase = inject(LoadDraftFinancialMovementsUseCase);
+  private bankAccountService = inject(BankAccountService);
 
   importData: ImportFinancialMovement[] = [];
-  displayedColumns: string[] = ['skip', 'date', 'description', 'amount', 'label'];
+  displayedColumns: string[] = ['skip', 'date', 'description', 'amount', 'bankAccount', 'label'];
   labels: string[] = [];
   selectedFileName: string | null = null;
   isDraftDirty = false; // <-- Add this line
+  bankAccounts: BankAccount[] = [];
 
   ngOnInit() {
     this.labelService.getLabels().subscribe(labels => {
       this.labels = labels;
+    });
+    this.bankAccountService.getBankAccounts().subscribe(accounts => {
+      this.bankAccounts = accounts;
     });
   }
 
@@ -145,5 +152,10 @@ export class ConfiguracionComponent implements OnInit {
     this.isDraftDirty = false;
     // Optionally, call a use case/service to delete from backend if needed
     // this.deleteDraftFinancialMovementsUseCase.execute().subscribe();
+  }
+
+  onBankAccountChange(row: ImportFinancialMovement) {
+    this.isDraftDirty = true;
+    // Optionally handle logic when bank account changes
   }
 }

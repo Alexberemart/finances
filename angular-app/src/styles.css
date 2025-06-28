@@ -2,3 +2,18 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* For Angular Material MDC-based snackbars */
+.mdc-snackbar.mat-mdc-snack-bar-container.snackbar-error,
+.mdc-snackbar.mat-mdc-snack-bar-container.snackbar-error .mdc-snackbar__surface {
+  background-color: #e53935 !important; /* red */
+  color: #fff !important;
+}
+.mat-mdc-snack-bar-container.snackbar-success {
+  background-color: #43a047 !important; /* green */
+  color: #fff !important;
+}
+.mat-mdc-snack-bar-container.snackbar-warning {
+  background-color: #ffa000 !important; /* amber */
+  color: #fff !important;
+}

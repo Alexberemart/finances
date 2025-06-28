@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ImportFinancialMovement } from '../../domain/models/import-financial-movement.model';
 import { ImportFileUseCase } from '../../application/use-cases/import-file.usecase';
@@ -42,6 +43,7 @@ export class ConfiguracionComponent implements OnInit {
   private registerNotSkippedMovementsUseCase = inject(RegisterNotSkippedMovementsUseCase);
   private loadDraftFinancialMovementsUseCase = inject(LoadDraftFinancialMovementsUseCase);
   private bankAccountService = inject(BankAccountService);
+  private snackBar = inject(MatSnackBar);
 
   importData: ImportFinancialMovement[] = [];
   displayedColumns: string[] = ['skip', 'date', 'description', 'amount', 'label', 'type', 'bankAccount'];
@@ -101,11 +103,17 @@ export class ConfiguracionComponent implements OnInit {
 
     this.saveImportedMovementsUseCase.replaceAllDraftMovements(this.importData).subscribe({
       next: () => {
-        alert('Movimientos guardados correctamente.');
+        this.snackBar.open('Movimientos guardados correctamente.', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['snackbar-success']
+        });
         this.isDraftDirty = false; // Reset dirty flag after saving
       },
       error: (err) => {
-        alert('Error al eliminar o guardar movimientos.');
+        this.snackBar.open('Error al eliminar o guardar movimientos.', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['snackbar-error']
+        });
         console.error(err);
       }
     });
@@ -114,10 +122,10 @@ export class ConfiguracionComponent implements OnInit {
   onRegisterNotSkipped() {
     this.registerNotSkippedMovementsUseCase.execute(this.importData).subscribe({
       next: () => {
-        alert('Movimientos no saltados registrados correctamente.');
+        this.snackBar.open('Movimientos no saltados registrados correctamente.', 'Cerrar', { duration: 3000 });
       },
       error: (err) => {
-        alert(err.message);
+        this.snackBar.open(err.message, 'Cerrar', { duration: 500000, panelClass: ['snackbar-error'] });
         console.error(err);
       }
     });
@@ -128,10 +136,14 @@ export class ConfiguracionComponent implements OnInit {
       next: (movements) => {
         this.importData = movements;
         this.isDraftDirty = false; // Reset dirty flag after loading
-        alert('Borradores cargados correctamente.');
+        this.snackBar.open('Borradores cargados correctamente.', 'Cerrar', {
+          duration: 3000,
+        });
       },
       error: (err) => {
-        alert('Error al cargar borradores.');
+        this.snackBar.open('Error al cargar borradores.', 'Cerrar', {
+          duration: 3000,
+        });
         console.error(err);
       }
     });

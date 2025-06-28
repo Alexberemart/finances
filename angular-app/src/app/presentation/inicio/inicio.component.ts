@@ -2,8 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { BankAccountService } from '../../infrastructure/services/bank-account.service'; // <-- Use BankAccountService
-import { BankAccount } from '../../domain/models/bank-account.model';
+import { GetBankAccountSummariesUseCase } from '../../application/use-cases/get-bank-account-summaries.usecase';
+import { BankAccountSummary } from '../../domain/models/bank-account-summary.model';
 
 @Component({
   selector: 'app-inicio',
@@ -13,13 +13,13 @@ import { BankAccount } from '../../domain/models/bank-account.model';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
-  private bankAccountService = inject(BankAccountService);
+  private getBankAccountSummariesUseCase = inject(GetBankAccountSummariesUseCase);
 
-  bankAccounts: BankAccount[] = [];
+  bankAccounts: BankAccountSummary[] = [];
   ultimaActualizacion = new Date();
 
   ngOnInit(): void {
-    this.bankAccountService.getBankAccounts().subscribe(accounts => {
+    this.getBankAccountSummariesUseCase.execute().subscribe(accounts => {
       this.bankAccounts = accounts;
       this.ultimaActualizacion = new Date();
     });

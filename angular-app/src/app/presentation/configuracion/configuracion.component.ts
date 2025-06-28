@@ -117,7 +117,7 @@ export class ConfiguracionComponent implements OnInit {
         alert('Movimientos no saltados registrados correctamente.');
       },
       error: (err) => {
-        alert('Error al registrar movimientos no saltados.');
+        alert(err.message);
         console.error(err);
       }
     });

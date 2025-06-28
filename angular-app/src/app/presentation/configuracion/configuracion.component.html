@@ -66,6 +66,15 @@
         </mat-select>
       </mat-cell>
     </ng-container>
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-select [(ngModel)]="row.type" (selectionChange)="onTypeChange(row)">
+          <mat-option value="gastos">Gastos</mat-option>
+          <mat-option value="ingresos">Ingresos</mat-option>
+        </mat-select>
+      </mat-cell>
+    </ng-container>
     <ng-container matColumnDef="bankAccount">
       <mat-header-cell *matHeaderCellDef> Cuenta </mat-header-cell>
       <mat-cell *matCellDef="let row">

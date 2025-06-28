@@ -5,4 +5,5 @@ export interface ImportFinancialMovement {
   label?: string;
   skip?: boolean;
   bankAccountId?: string;
+  type?: 'gastos' | 'ingresos'; // Add this line to persist the selected type
 }

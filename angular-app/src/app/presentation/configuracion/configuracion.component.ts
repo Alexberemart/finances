@@ -44,7 +44,7 @@ export class ConfiguracionComponent implements OnInit {
   private bankAccountService = inject(BankAccountService);
 
   importData: ImportFinancialMovement[] = [];
-  displayedColumns: string[] = ['skip', 'date', 'description', 'amount', 'bankAccount', 'label'];
+  displayedColumns: string[] = ['skip', 'date', 'description', 'amount', 'label', 'type', 'bankAccount'];
   labels: string[] = [];
   selectedFileName: string | null = null;
   isDraftDirty = false; // <-- Add this line
@@ -157,5 +157,10 @@ export class ConfiguracionComponent implements OnInit {
   onBankAccountChange(row: ImportFinancialMovement) {
     this.isDraftDirty = true;
     // Optionally handle logic when bank account changes
+  }
+
+  onTypeChange(row: ImportFinancialMovement) {
+    this.isDraftDirty = true;
+    // Optionally handle logic when type changes
   }
 }

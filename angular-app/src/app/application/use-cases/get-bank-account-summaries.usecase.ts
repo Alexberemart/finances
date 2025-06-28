@@ -1,23 +1,32 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, map } from 'rxjs';
+import { Observable, forkJoin, map, switchMap } from 'rxjs';
 import { BankAccountSummary } from '../../domain/models/bank-account-summary.model';
 import { BankAccountService } from '../../infrastructure/services/bank-account.service';
 import { BankAccount } from '../../domain/models/bank-account.model';
+import { GetFinancialMovementsSummaryUseCase } from './get-financial-movements-summary.usecase';
 
 @Injectable({ providedIn: 'root' })
 export class GetBankAccountSummariesUseCase {
-  constructor(private bankAccountService: BankAccountService) {}
+  constructor(
+    private bankAccountService: BankAccountService,
+    private getFinancialMovementsSummaryUseCase: GetFinancialMovementsSummaryUseCase
+  ) {}
 
   execute(): Observable<BankAccountSummary[]> {
     return this.bankAccountService.getBankAccounts().pipe(
-      map((accounts: BankAccount[]) =>
-        accounts.map(account => ({
-          id: account.id,
-          name: account.name,
-          // Mock values for balance and currency; replace with real logic as needed
-          balance: account.id === 'bbva' ? 1234.56 : 7890.12,
-          currency: 'EUR'
-        }))
+      switchMap((accounts: BankAccount[]) =>
+        forkJoin(
+          accounts.map(account =>
+            this.getFinancialMovementsSummaryUseCase.execute(account.id).pipe(
+              map(summary => ({
+                id: account.id,
+                name: account.name,
+                balance: summary.total,
+                currency: 'EUR'
+              }))
+            )
+          )
+        )
       )
     );
   }

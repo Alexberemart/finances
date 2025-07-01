@@ -9,8 +9,10 @@ import com.alexberemart.finances.application.usecases.SaveDraftFinancialMovement
 import com.alexberemart.finances.application.usecases.DeleteAllDraftFinancialMovements;
 import com.alexberemart.finances.application.usecases.ReplaceAllDraftFinancialMovements;
 import com.alexberemart.finances.application.usecases.GetAllDraftFinancialMovements;
+import com.alexberemart.finances.application.usecases.GetFinancialMovements;
 import com.alexberemart.finances.domain.ports.repositories.FinancialMovementRepository;
 import com.alexberemart.finances.domain.ports.repositories.DraftFinancialMovementRepository;
+import com.alexberemart.finances.domain.ports.repositories.BankAccountRepository;
 
 @Configuration
 public class AppConfig {
@@ -26,8 +28,10 @@ public class AppConfig {
     }
 
     @Bean
-    public CreateFinancialMovements createFinancialMovements(FinancialMovementRepository repository) {
-        return new CreateFinancialMovements(repository);
+    public CreateFinancialMovements createFinancialMovements(
+            FinancialMovementRepository repository,
+            BankAccountRepository bankAccountRepository) {
+        return new CreateFinancialMovements(repository, bankAccountRepository);
     }
 
     @Bean
@@ -45,5 +49,10 @@ public class AppConfig {
     @Bean
     public GetAllDraftFinancialMovements getAllDraftFinancialMovements(DraftFinancialMovementRepository repository) {
         return new GetAllDraftFinancialMovements(repository);
+    }
+
+    @Bean
+    public GetFinancialMovements getFinancialMovements(FinancialMovementRepository repository) {
+        return new GetFinancialMovements(repository);
     }
 }

@@ -12,6 +12,7 @@ public class DraftFinancialMovementMapper {
         entity.setAmount(dto.getAmount());
         entity.setLabel(dto.getLabel());
         entity.setSkip(dto.getSkip() != null && dto.getSkip());
+        entity.setBankAccountId(dto.getBankAccountId()); // Add mapping for bankAccountId
         return entity;
     }
 
@@ -22,6 +23,7 @@ public class DraftFinancialMovementMapper {
         dto.setAmount(entity.getAmount());
         dto.setLabel(entity.getLabel());
         dto.setSkip(entity.isSkip());
+        dto.setBankAccountId(entity.getBankAccountId()); // Add mapping for bankAccountId
         return dto;
     }
 }

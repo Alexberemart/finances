@@ -23,6 +23,8 @@ public class ImportFinancialMovementEntity {
 
     private boolean skip;
 
+    private String bankAccountId; // <-- Added field
+
     // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -41,4 +43,7 @@ public class ImportFinancialMovementEntity {
 
     public boolean isSkip() { return skip; }
     public void setSkip(boolean skip) { this.skip = skip; }
+
+    public String getBankAccountId() { return bankAccountId; } // <-- Getter
+    public void setBankAccountId(String bankAccountId) { this.bankAccountId = bankAccountId; } // <-- Setter
 }

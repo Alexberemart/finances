@@ -1,0 +1,14 @@
+services:
+  mariadb-test:
+    image: mariadb:${MARIADB_VERSION}
+    container_name: finances-mariadb-test
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_TEST_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_TEST_DATABASE}   # <-- This line creates the DB at startup
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-uroot", "-p${MARIADB_TEST_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10

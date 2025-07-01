@@ -21,6 +21,10 @@ public class FinancialMovementEntity {
 
     private String label;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bank_account_id", nullable = false)
+    private BankAccountEntity bankAccount;
+
     // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -36,4 +40,12 @@ public class FinancialMovementEntity {
 
     public String getLabel() { return label; }
     public void setLabel(String label) { this.label = label; }
+
+    public BankAccountEntity getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(BankAccountEntity bankAccount) {
+        this.bankAccount = bankAccount;
+    }
 }

@@ -3,43 +3,71 @@
 # Starts the development environment for the Finances project.
 #
 # This script performs the following steps:
-#   1. Checks if Docker Desktop is running. If not, shows a clear error and exits.
-#   2. Builds the project using Maven.
-#   3. Removes any existing 'finances-mysql' container to avoid conflicts.
-#   4. Builds and starts the Docker Compose services.
-#   5. Shows the logs for the Spring Boot application container.
+#   1. Loads environment variables from .env.
+#   2. Checks if Docker Desktop is running.
+#   3. Builds the project with Maven and runs tests.
+#   4. Starts a temporary MariaDB test container (using docker-compose.migration.yml).
+#   5. Waits for the test MariaDB to be healthy.
+#   6. Runs Flyway migrations against the test database to validate all migrations.
+#   7. Stops and removes the temporary MariaDB test container.
+#   8. If migrations succeed, builds and starts the main Docker Compose services.
+#   9. Shows the logs for the Spring Boot application container.
 #
 # Usage: ./start-dev.sh [profile]
 # Default profile is 'local'.
 
 PROFILE="${1:-local}"
 
-# Check if Docker is running
+# 1. Load environment variables from .env file
+if [ -f .env ]; then
+  export $(grep -v '^#' .env | xargs)
+fi
+
+# 2. Check if Docker is running
 if ! docker info > /dev/null 2>&1; then
   echo "ERROR: Docker Desktop is not running. Please start Docker Desktop and try again." >&2
   exit 1
 fi
 
-# Build the project with Maven and check coverage
+# 3. Build the project with Maven and run tests
 mvn clean verify
 if [ $? -ne 0 ]; then
   echo "Maven build (with coverage) failed. Exiting." >&2
   exit 1
 fi
 
-# Remove existing finances-mysql container if it exists
-CONTAINER_ID=$(docker ps -a --filter "name=finances-mysql" --format "{{.ID}}")
-if [ -n "$CONTAINER_ID" ]; then
-  echo "Removing existing finances-mysql container..."
-  docker rm -f finances-mysql
+echo "Testing Flyway migrations on a fresh, isolated MariaDB test container..."
+
+# 4. Start test MariaDB container using a separate docker-compose file
+docker-compose -f docker-compose.migration.yml up -d mariadb-test
+
+# 5. Wait for healthcheck on the test MariaDB container
+echo "Waiting for test MariaDB to be healthy..."
+until [ "$(docker inspect --format='{{.State.Health.Status}}' finances-mariadb-test)" == "healthy" ]; do
+  sleep 2
+done
+
+# 6. Run Flyway migrations against the test database
+./mvnw flyway:migrate \
+  -Dflyway.url=jdbc:mariadb://localhost:3307/$MARIADB_TEST_DATABASE \
+  -Dflyway.user=root \
+  -Dflyway.password="$MARIADB_TEST_PASSWORD"
+MIGRATION_RESULT=$?
+
+# 7. Stop and remove the test MariaDB container
+docker-compose -f docker-compose.migration.yml rm -sf mariadb-test
+
+# 8. If migrations failed, exit; otherwise, continue to start main environment
+if [ $MIGRATION_RESULT -ne 0 ]; then
+  echo "Flyway migration failed on fresh test database. Exiting." >&2
+  exit 1
 fi
 
-# Set the profile for docker-compose
-export SPRING_PROFILES_ACTIVE="$PROFILE"
+echo "Flyway migrations succeeded on test database. Starting full dev environment..."
 
-# Build and start Docker Compose services
+export SPRING_PROFILES_ACTIVE="$PROFILE"
 docker-compose build --no-cache
 docker-compose up -d
 
-# Show logs for the Spring Boot app container
+# 9. Show logs for the Spring Boot app container
 docker-compose logs -f app

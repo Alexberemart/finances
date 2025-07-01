@@ -8,7 +8,8 @@ public class DraftFinancialMovementDto {
     private String description;
     private BigDecimal amount;
     private String label;
-    private Boolean skip;
+    private String bankAccountId;
+    private Boolean skip; // <-- Add this field
 
     // Getters and setters
     public Date getDate() { return date; }
@@ -22,6 +23,9 @@ public class DraftFinancialMovementDto {
 
     public String getLabel() { return label; }
     public void setLabel(String label) { this.label = label; }
+
+    public String getBankAccountId() { return bankAccountId; }
+    public void setBankAccountId(String bankAccountId) { this.bankAccountId = bankAccountId; }
 
     public Boolean getSkip() { return skip; }
     public void setSkip(Boolean skip) { this.skip = skip; }

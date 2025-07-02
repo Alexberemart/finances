@@ -1,20 +1,21 @@
 package com.alexberemart.finances.domain.ports.dtos;
 
 import java.util.Date;
+import java.math.BigDecimal;
 
 public class FinancialMovementDto {
 
     private Date date;
     private String description;
-    private Double amount;
+    private BigDecimal amount; // Changed from Double to BigDecimal
     private String movimiento;
     private String observaciones;
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

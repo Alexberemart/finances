@@ -22,7 +22,7 @@ class CreateDraftFinancialMovementsTest {
         cal1.set(Calendar.MILLISECOND, 0);
         dto1.setDate(cal1.getTime());
         dto1.setDescription("Test movement 1");
-        dto1.setAmount(new BigDecimal("100.00").doubleValue());
+        dto1.setAmount(new BigDecimal("100.00"));
 
         FinancialMovementDto dto2 = new FinancialMovementDto();
         Calendar cal2 = Calendar.getInstance();
@@ -30,7 +30,7 @@ class CreateDraftFinancialMovementsTest {
         cal2.set(Calendar.MILLISECOND, 0);
         dto2.setDate(cal2.getTime());
         dto2.setDescription("Test movement 2");
-        dto2.setAmount(new BigDecimal("200.00").doubleValue());
+        dto2.setAmount(new BigDecimal("200.00"));
 
         List<FinancialMovementDto> inputList = Arrays.asList(dto1, dto2);
 

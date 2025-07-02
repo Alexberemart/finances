@@ -30,4 +30,12 @@ public class BankAccountRepositoryAdapter implements BankAccountRepository {
         domain.setName(entity.getName());
         return domain;
     }
+
+    @Override
+    public void save(BankAccount bankAccount) {
+        BankAccountEntity entity = new BankAccountEntity();
+        entity.setId(bankAccount.getId());
+        entity.setName(bankAccount.getName());
+        repository.save(entity);
+    }
 }

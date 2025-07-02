@@ -5,4 +5,5 @@ import java.util.Optional;
 
 public interface BankAccountRepository {
     Optional<BankAccount> findById(String id);
+    void save(BankAccount bankAccount);
 }

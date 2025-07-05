@@ -9,26 +9,31 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.alexberemart.finances.domain.models.BankAccount;
 import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 import com.alexberemart.finances.domain.ports.dtos.FinancialMovementDto;
+import com.alexberemart.finances.domain.ports.repositories.BankAccountRepository;
+import com.alexberemart.finances.testinfra.AbstractIntegrationTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class DraftFinancialMovementControllerIT {
+@Transactional
+class DraftFinancialMovementControllerIT extends AbstractIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private BankAccountRepository bankAccountRepository;
 
     @Test
     void getAllDraftFinancialMovements_shouldReturnOk() throws Exception {
@@ -91,5 +96,13 @@ class DraftFinancialMovementControllerIT {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isOk());
+    }
+
+    @BeforeEach
+    void setupBankAccount() {
+        BankAccount account = new BankAccount();
+        account.setId("account-123");
+        account.setName("Test Account");
+        bankAccountRepository.save(account);
     }
 }

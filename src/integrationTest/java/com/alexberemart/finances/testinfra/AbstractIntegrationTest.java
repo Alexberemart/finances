@@ -11,6 +11,7 @@ import org.testcontainers.containers.MariaDBContainer;
 @ImportTestcontainers
 public abstract class AbstractIntegrationTest {
 
+    @SuppressWarnings("resource")
     @ServiceConnection
     static MariaDBContainer<?> mariaDB = new MariaDBContainer<>("mariadb:11.4")
             .withDatabaseName("testdb")

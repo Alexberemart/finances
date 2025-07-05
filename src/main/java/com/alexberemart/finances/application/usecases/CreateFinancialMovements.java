@@ -1,6 +1,7 @@
 package com.alexberemart.finances.application.usecases;
 
 import com.alexberemart.finances.domain.models.FinancialMovement;
+import com.alexberemart.finances.domain.models.FinancialMovementCategory;
 import com.alexberemart.finances.domain.models.BankAccount;
 import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 import com.alexberemart.finances.domain.ports.repositories.FinancialMovementRepository;
@@ -26,7 +27,14 @@ public class CreateFinancialMovements {
                 fm.setDate(dto.getDate());
                 fm.setDescription(dto.getDescription());
                 fm.setAmount(dto.getAmount());
-                fm.setLabel(dto.getLabel());
+                // Set category from categoryId
+                if (dto.getCategoryId() != null) {
+                    FinancialMovementCategory category = new FinancialMovementCategory();
+                    category.setId(dto.getCategoryId());
+                    fm.setCategory(category);
+                } else {
+                    fm.setCategory(null);
+                }
                 BankAccount account = bankAccountRepository.findById(dto.getBankAccountId())
                     .orElseThrow(() -> new IllegalArgumentException("Bank account not found: " + dto.getBankAccountId()));
                 fm.setBankAccount(account);

@@ -2,6 +2,7 @@ package com.alexberemart.finances.infraestructure.out.mappers;
 
 import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 import com.alexberemart.finances.infraestructure.out.entities.ImportFinancialMovementEntity;
+import com.alexberemart.finances.infraestructure.out.entities.FinancialMovementCategoryEntity;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -19,8 +20,9 @@ class DraftFinancialMovementMapperTest {
         dto.setDate(now);
         dto.setDescription("desc");
         dto.setAmount(BigDecimal.TEN);
-        dto.setLabel("label");
+        dto.setCategoryId("cat-1");
         dto.setSkip(true);
+        dto.setBankAccountId("acc-1");
 
         // Act
         ImportFinancialMovementEntity entity = DraftFinancialMovementMapper.toEntity(dto);
@@ -29,8 +31,10 @@ class DraftFinancialMovementMapperTest {
         assertEquals(dto.getDate(), entity.getDate());
         assertEquals(dto.getDescription(), entity.getDescription());
         assertEquals(dto.getAmount(), entity.getAmount());
-        assertEquals(dto.getLabel(), entity.getLabel());
         assertEquals(dto.getSkip(), entity.isSkip());
+        assertEquals(dto.getBankAccountId(), entity.getBankAccountId());
+        assertNotNull(entity.getCategory());
+        assertEquals(dto.getCategoryId(), entity.getCategory().getId());
     }
 
     @Test
@@ -41,8 +45,11 @@ class DraftFinancialMovementMapperTest {
         entity.setDate(now);
         entity.setDescription("desc");
         entity.setAmount(BigDecimal.TEN);
-        entity.setLabel("label");
         entity.setSkip(true);
+        entity.setBankAccountId("acc-1");
+        FinancialMovementCategoryEntity category = new FinancialMovementCategoryEntity();
+        category.setId("cat-1");
+        entity.setCategory(category);
 
         // Act
         DraftFinancialMovementDto dto = DraftFinancialMovementMapper.toDto(entity);
@@ -51,7 +58,8 @@ class DraftFinancialMovementMapperTest {
         assertEquals(entity.getDate(), dto.getDate());
         assertEquals(entity.getDescription(), dto.getDescription());
         assertEquals(entity.getAmount(), dto.getAmount());
-        assertEquals(entity.getLabel(), dto.getLabel());
         assertEquals(entity.isSkip(), dto.getSkip());
+        assertEquals(entity.getBankAccountId(), dto.getBankAccountId());
+        assertEquals(entity.getCategory().getId(), dto.getCategoryId());
     }
 }

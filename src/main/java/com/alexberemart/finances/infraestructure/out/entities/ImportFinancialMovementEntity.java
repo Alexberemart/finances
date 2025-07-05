@@ -19,11 +19,13 @@ public class ImportFinancialMovementEntity {
 
     private BigDecimal amount;
 
-    private String label;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private FinancialMovementCategoryEntity category;
 
     private boolean skip;
 
-    private String bankAccountId; // <-- Added field
+    private String bankAccountId;
 
     // Getters and setters
     public Long getId() { return id; }
@@ -38,12 +40,12 @@ public class ImportFinancialMovementEntity {
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
 
-    public String getLabel() { return label; }
-    public void setLabel(String label) { this.label = label; }
+    public FinancialMovementCategoryEntity getCategory() { return category; }
+    public void setCategory(FinancialMovementCategoryEntity category) { this.category = category; }
 
     public boolean isSkip() { return skip; }
     public void setSkip(boolean skip) { this.skip = skip; }
 
-    public String getBankAccountId() { return bankAccountId; } // <-- Getter
-    public void setBankAccountId(String bankAccountId) { this.bankAccountId = bankAccountId; } // <-- Setter
+    public String getBankAccountId() { return bankAccountId; }
+    public void setBankAccountId(String bankAccountId) { this.bankAccountId = bankAccountId; }
 }

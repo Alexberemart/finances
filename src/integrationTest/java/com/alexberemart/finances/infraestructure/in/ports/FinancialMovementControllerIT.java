@@ -44,7 +44,7 @@ class FinancialMovementControllerIT extends AbstractIntegrationTest {
         dto.setDate(new Date());
         dto.setDescription("Test movement");
         dto.setAmount(new BigDecimal("100.00"));
-        dto.setLabel("Test Label");
+        dto.setCategoryId("cat-1"); // Use categoryId instead of label
         dto.setBankAccountId("account-123");
         dto.setSkip(false);
 

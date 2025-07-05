@@ -8,17 +8,17 @@ public class FinancialMovement {
     private Date date;
     private String description;
     private BigDecimal amount;
-    private String label;
-    private BankAccount bankAccount; // <-- Add this line
+    private FinancialMovementCategory category;
+    private BankAccount bankAccount;
 
     public FinancialMovement() {}
 
-    public FinancialMovement(Long id, Date date, String description, BigDecimal amount, String label, BankAccount bankAccount) {
+    public FinancialMovement(Long id, Date date, String description, BigDecimal amount, FinancialMovementCategory category, BankAccount bankAccount) {
         this.id = id;
         this.date = date;
         this.description = description;
         this.amount = amount;
-        this.label = label;
+        this.category = category;
         this.bankAccount = bankAccount;
     }
 
@@ -54,12 +54,12 @@ public class FinancialMovement {
         this.amount = amount;
     }
 
-    public String getLabel() {
-        return label;
+    public FinancialMovementCategory getCategory() {
+        return category;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setCategory(FinancialMovementCategory category) {
+        this.category = category;
     }
 
     public BankAccount getBankAccount() {

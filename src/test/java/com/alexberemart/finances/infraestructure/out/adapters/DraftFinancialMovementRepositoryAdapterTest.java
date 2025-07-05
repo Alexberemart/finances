@@ -23,7 +23,7 @@ class DraftFinancialMovementRepositoryAdapterTest {
         dto.setDate(new Date());
         dto.setDescription("desc");
         dto.setAmount(BigDecimal.TEN);
-        dto.setLabel("label");
+        dto.setCategoryId("cat-1"); // Use categoryId instead of label
 
         List<DraftFinancialMovementDto> dtos = List.of(dto);
 
@@ -44,7 +44,8 @@ class DraftFinancialMovementRepositoryAdapterTest {
             return entity.getDate().equals(dto.getDate())
                 && entity.getDescription().equals(dto.getDescription())
                 && entity.getAmount().equals(dto.getAmount())
-                && entity.getLabel().equals(dto.getLabel());
+                && entity.getCategory() != null
+                && entity.getCategory().getId().equals(dto.getCategoryId());
         }));
     }
 }

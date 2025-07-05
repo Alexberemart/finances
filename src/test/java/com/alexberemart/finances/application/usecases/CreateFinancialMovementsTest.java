@@ -35,7 +35,7 @@ class CreateFinancialMovementsTest {
         dto.setDate(new Date());
         dto.setDescription("desc");
         dto.setAmount(BigDecimal.TEN);
-        dto.setLabel("label");
+        dto.setCategoryId("cat-1"); // Use categoryId instead of label
         dto.setBankAccountId(bankAccountId);
 
         List<DraftFinancialMovementDto> dtos = List.of(dto);
@@ -50,7 +50,8 @@ class CreateFinancialMovementsTest {
             return entity.getDate().equals(dto.getDate())
                 && entity.getDescription().equals(dto.getDescription())
                 && entity.getAmount().equals(dto.getAmount())
-                && entity.getLabel().equals(dto.getLabel());
+                && entity.getCategory() != null
+                && entity.getCategory().getId().equals(dto.getCategoryId());
         }));
     }
 }

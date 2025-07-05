@@ -7,7 +7,8 @@ public class DraftFinancialMovementDto {
     private Date date;
     private String description;
     private BigDecimal amount;
-    private String label;
+    // The label now references a FinancialMovementCategory id
+    private String categoryId;
     private String bankAccountId;
     private Boolean skip; // <-- Add this field
 
@@ -21,8 +22,8 @@ public class DraftFinancialMovementDto {
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
 
-    public String getLabel() { return label; }
-    public void setLabel(String label) { this.label = label; }
+    public String getCategoryId() { return categoryId; }
+    public void setCategoryId(String categoryId) { this.categoryId = categoryId; }
 
     public String getBankAccountId() { return bankAccountId; }
     public void setBankAccountId(String bankAccountId) { this.bankAccountId = bankAccountId; }

@@ -2,6 +2,7 @@ package com.alexberemart.finances.infraestructure.out.mappers;
 
 import com.alexberemart.finances.domain.ports.dtos.DraftFinancialMovementDto;
 import com.alexberemart.finances.infraestructure.out.entities.ImportFinancialMovementEntity;
+import com.alexberemart.finances.infraestructure.out.entities.FinancialMovementCategoryEntity;
 
 public class DraftFinancialMovementMapper {
 
@@ -10,9 +11,16 @@ public class DraftFinancialMovementMapper {
         entity.setDate(dto.getDate());
         entity.setDescription(dto.getDescription());
         entity.setAmount(dto.getAmount());
-        entity.setLabel(dto.getLabel());
+        // Map categoryId to FinancialMovementCategoryEntity
+        if (dto.getCategoryId() != null) {
+            FinancialMovementCategoryEntity category = new FinancialMovementCategoryEntity();
+            category.setId(dto.getCategoryId());
+            entity.setCategory(category);
+        } else {
+            entity.setCategory(null);
+        }
         entity.setSkip(dto.getSkip() != null && dto.getSkip());
-        entity.setBankAccountId(dto.getBankAccountId()); // Add mapping for bankAccountId
+        entity.setBankAccountId(dto.getBankAccountId());
         return entity;
     }
 
@@ -21,9 +29,10 @@ public class DraftFinancialMovementMapper {
         dto.setDate(entity.getDate());
         dto.setDescription(entity.getDescription());
         dto.setAmount(entity.getAmount());
-        dto.setLabel(entity.getLabel());
+        // Map FinancialMovementCategoryEntity to categoryId
+        dto.setCategoryId(entity.getCategory() != null ? entity.getCategory().getId() : null);
         dto.setSkip(entity.isSkip());
-        dto.setBankAccountId(entity.getBankAccountId()); // Add mapping for bankAccountId
+        dto.setBankAccountId(entity.getBankAccountId());
         return dto;
     }
 }

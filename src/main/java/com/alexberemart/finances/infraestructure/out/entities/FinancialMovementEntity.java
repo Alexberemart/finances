@@ -19,7 +19,9 @@ public class FinancialMovementEntity {
 
     private BigDecimal amount;
 
-    private String label;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private FinancialMovementCategoryEntity category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bank_account_id", nullable = false)
@@ -38,8 +40,8 @@ public class FinancialMovementEntity {
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
 
-    public String getLabel() { return label; }
-    public void setLabel(String label) { this.label = label; }
+    public FinancialMovementCategoryEntity getCategory() { return category; }
+    public void setCategory(FinancialMovementCategoryEntity category) { this.category = category; }
 
     public BankAccountEntity getBankAccount() {
         return bankAccount;

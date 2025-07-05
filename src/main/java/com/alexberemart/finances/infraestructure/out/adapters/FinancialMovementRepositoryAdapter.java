@@ -2,9 +2,11 @@ package com.alexberemart.finances.infraestructure.out.adapters;
 
 import com.alexberemart.finances.domain.models.BankAccount;
 import com.alexberemart.finances.domain.models.FinancialMovement;
+import com.alexberemart.finances.domain.models.FinancialMovementCategory;
 import com.alexberemart.finances.domain.ports.repositories.FinancialMovementRepository;
 import com.alexberemart.finances.infraestructure.out.entities.FinancialMovementEntity;
 import com.alexberemart.finances.infraestructure.out.entities.BankAccountEntity;
+import com.alexberemart.finances.infraestructure.out.entities.FinancialMovementCategoryEntity;
 import com.alexberemart.finances.infraestructure.out.repositories.JpaFinancialMovementRepository;
 import org.springframework.stereotype.Component;
 
@@ -41,12 +43,25 @@ public class FinancialMovementRepositoryAdapter implements FinancialMovementRepo
         entity.setDate(movement.getDate());
         entity.setDescription(movement.getDescription());
         entity.setAmount(movement.getAmount());
-        entity.setLabel(movement.getLabel());
-        // Set bankAccountId if your entity has it
+
+        // Map category
+        if (movement.getCategory() != null) {
+            FinancialMovementCategoryEntity categoryEntity = new FinancialMovementCategoryEntity();
+            categoryEntity.setId(movement.getCategory().getId());
+            categoryEntity.setName(movement.getCategory().getName());
+            entity.setCategory(categoryEntity);
+        } else {
+            entity.setCategory(null);
+        }
+
+        // Map bank account
         if (movement.getBankAccount() != null) {
             BankAccountEntity bankAccountEntity = new BankAccountEntity();
             bankAccountEntity.setId(movement.getBankAccount().getId());
+            bankAccountEntity.setName(movement.getBankAccount().getName());
             entity.setBankAccount(bankAccountEntity);
+        } else {
+            entity.setBankAccount(null);
         }
         return entity;
     }
@@ -57,7 +72,16 @@ public class FinancialMovementRepositoryAdapter implements FinancialMovementRepo
         movement.setDate(entity.getDate());
         movement.setDescription(entity.getDescription());
         movement.setAmount(entity.getAmount());
-        movement.setLabel(entity.getLabel());
+
+        // Map category
+        if (entity.getCategory() != null) {
+            FinancialMovementCategory category = new FinancialMovementCategory();
+            category.setId(entity.getCategory().getId());
+            category.setName(entity.getCategory().getName());
+            movement.setCategory(category);
+        } else {
+            movement.setCategory(null);
+        }
 
         if (entity.getBankAccount() == null) {
             throw new IllegalStateException("FinancialMovementEntity with id " + entity.getId() + " has no related BankAccountEntity.");

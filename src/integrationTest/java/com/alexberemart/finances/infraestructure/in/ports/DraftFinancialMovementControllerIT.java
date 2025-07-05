@@ -47,7 +47,7 @@ class DraftFinancialMovementControllerIT extends AbstractIntegrationTest {
         dto.setDate(new Date());
         dto.setDescription("desc");
         dto.setAmount(new java.math.BigDecimal("10.0"));
-        dto.setLabel("label");
+        dto.setCategoryId("cat-1"); // Use categoryId instead of label
         dto.setBankAccountId("account-123");
         dto.setSkip(false);
 
@@ -71,7 +71,7 @@ class DraftFinancialMovementControllerIT extends AbstractIntegrationTest {
         dto.setDate(new Date());
         dto.setDescription("desc");
         dto.setAmount(new BigDecimal("10.0"));
-        dto.setLabel("label");
+        dto.setCategoryId("cat-1"); // Use categoryId instead of label
         dto.setBankAccountId("account-123");
         dto.setSkip(false);
 

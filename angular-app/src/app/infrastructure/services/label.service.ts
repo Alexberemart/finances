@@ -11,13 +11,6 @@ export class LabelService {
   constructor(private http: HttpClient) {}
 
   getLabels(): Observable<string[]> {
-    // Mocked categories for income bank movements
-    return of([
-      'Salary',
-      'Interest',
-      'Dividends',
-      'Refund',
-      'Other Income'
-    ]);
+    return this.http.get<string[]>('/api/labels');
   }
 }

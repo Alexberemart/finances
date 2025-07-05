@@ -2,8 +2,10 @@ package com.alexberemart.finances.infraestructure.out.adapters;
 
 import com.alexberemart.finances.domain.models.BankAccount;
 import com.alexberemart.finances.domain.models.FinancialMovement;
+import com.alexberemart.finances.domain.models.FinancialMovementCategory;
 import com.alexberemart.finances.infraestructure.out.entities.BankAccountEntity;
 import com.alexberemart.finances.infraestructure.out.entities.FinancialMovementEntity;
+import com.alexberemart.finances.infraestructure.out.entities.FinancialMovementCategoryEntity;
 import com.alexberemart.finances.infraestructure.out.repositories.JpaFinancialMovementRepository;
 import org.junit.jupiter.api.Test;
 
@@ -22,12 +24,16 @@ class FinancialMovementRepositoryAdapterTest {
         JpaFinancialMovementRepository mockJpaRepo = mock(JpaFinancialMovementRepository.class);
         FinancialMovementRepositoryAdapter adapter = new FinancialMovementRepositoryAdapter(mockJpaRepo);
 
+        FinancialMovementCategory category = new FinancialMovementCategory();
+        category.setId("cat-1");
+        category.setName("Category 1");
+
         FinancialMovement movement = new FinancialMovement();
         movement.setId(1L);
         movement.setDate(new Date());
         movement.setDescription("desc");
         movement.setAmount(BigDecimal.TEN);
-        movement.setLabel("label");
+        movement.setCategory(category);
         movement.setBankAccount(new BankAccount("accId", "accName"));
 
         List<FinancialMovement> movements = List.of(movement);
@@ -37,7 +43,6 @@ class FinancialMovementRepositoryAdapterTest {
 
         // Assert
         verify(mockJpaRepo, times(1)).saveAll(argThat(entities -> {
-            // Convert Iterable to List for size() and get()
             List<FinancialMovementEntity> entityList = new java.util.ArrayList<>();
             entities.forEach(entityList::add);
             if (entityList.size() != 1) return false;
@@ -46,9 +51,12 @@ class FinancialMovementRepositoryAdapterTest {
                 && entity.getDate().equals(movement.getDate())
                 && entity.getDescription().equals(movement.getDescription())
                 && entity.getAmount().equals(movement.getAmount())
-                && entity.getLabel().equals(movement.getLabel())
+                && entity.getCategory() != null
+                && entity.getCategory().getId().equals(movement.getCategory().getId())
+                && entity.getCategory().getName().equals(movement.getCategory().getName())
                 && entity.getBankAccount() != null
-                && entity.getBankAccount().getId().equals("accId");
+                && entity.getBankAccount().getId().equals("accId")
+                && entity.getBankAccount().getName().equals("accName");
         }));
     }
 
@@ -62,12 +70,16 @@ class FinancialMovementRepositoryAdapterTest {
         bankAccountEntity.setId("accId");
         bankAccountEntity.setName("accName");
 
+        FinancialMovementCategoryEntity categoryEntity = new FinancialMovementCategoryEntity();
+        categoryEntity.setId("cat-2");
+        categoryEntity.setName("Category 2");
+
         FinancialMovementEntity entity = new FinancialMovementEntity();
         entity.setId(2L);
         entity.setDate(new Date());
         entity.setDescription("desc2");
         entity.setAmount(BigDecimal.ONE);
-        entity.setLabel("label2");
+        entity.setCategory(categoryEntity);
         entity.setBankAccount(bankAccountEntity);
 
         when(mockJpaRepo.findByBankAccountId("accId")).thenReturn(List.of(entity));
@@ -82,7 +94,9 @@ class FinancialMovementRepositoryAdapterTest {
         assertEquals(entity.getDate(), movement.getDate());
         assertEquals(entity.getDescription(), movement.getDescription());
         assertEquals(entity.getAmount(), movement.getAmount());
-        assertEquals(entity.getLabel(), movement.getLabel());
+        assertNotNull(movement.getCategory());
+        assertEquals(entity.getCategory().getId(), movement.getCategory().getId());
+        assertEquals(entity.getCategory().getName(), movement.getCategory().getName());
         assertNotNull(movement.getBankAccount());
         assertEquals("accId", movement.getBankAccount().getId());
         assertEquals("accName", movement.getBankAccount().getName());
@@ -94,17 +108,20 @@ class FinancialMovementRepositoryAdapterTest {
         JpaFinancialMovementRepository mockJpaRepo = mock(JpaFinancialMovementRepository.class);
         FinancialMovementRepositoryAdapter adapter = new FinancialMovementRepositoryAdapter(mockJpaRepo);
 
+        FinancialMovementCategoryEntity categoryEntity = new FinancialMovementCategoryEntity();
+        categoryEntity.setId("cat-3");
+        categoryEntity.setName("Category 3");
+
         FinancialMovementEntity entity = new FinancialMovementEntity();
         entity.setId(3L);
         entity.setDate(new Date());
         entity.setDescription("desc3");
         entity.setAmount(BigDecimal.ZERO);
-        entity.setLabel("label3");
+        entity.setCategory(categoryEntity);
         entity.setBankAccount(null);
 
         // Use reflection to access private method for direct test (optional, or test via public API)
         assertThrows(IllegalStateException.class, () -> {
-            // Simulate call via findByBankAccountId
             when(mockJpaRepo.findByBankAccountId(anyString())).thenReturn(List.of(entity));
             adapter.findByBankAccountId("any");
         });
